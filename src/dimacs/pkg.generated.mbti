@@ -1,0 +1,62 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbit-community/pomegranate/dimacs"
+
+import(
+  "moonbit-community/pomegranate/formula"
+  "moonbitlang/core/buffer"
+  "moonbitlang/core/encoding/utf8"
+)
+
+// Values
+
+// Errors
+pub suberror DIMACSParseError {
+  UnexpectedInputCharacter(line~ : Int, unexpected~ : Char)
+  LiteralTooLarge(line~ : Int, index~ : UInt64, final_digit~ : UInt64)
+  InvalidHeader(line~ : Int, header~ : StringView)
+  UnterminatedClause(line~ : Int)
+  VarCount(var_count~ : UInt64, header_var_count~ : UInt64)
+  ClauseCount(clause_count~ : UInt64, header_clause_count~ : UInt64)
+  FormulaError(@formula.FormulaError)
+  DecodeError(@utf8.Malformed)
+  PreviousError
+}
+pub impl Show for DIMACSParseError
+pub impl ToJson for DIMACSParseError
+
+// Types and methods
+pub struct DimacsHeader {
+  var_count : UInt64
+  clause_count : UInt64
+}
+pub fn DimacsHeader::new(UInt64, UInt64) -> Self
+
+pub struct DimacsParser {
+  formula : @formula.CnfFormula
+  partial_clause : Array[@formula.Lit]
+  mut header : DimacsHeader?
+  mut line_number : Int
+  mut clause_count : UInt64
+  mut partial_lit : UInt64
+  mut negate_next_lit : Bool
+  mut in_lit : Bool
+  mut in_comment_or_header : Bool
+  mut in_header : Bool
+  mut start_of_line : Bool
+  mut terminated : Bool
+  mut error : Bool
+  mut header_line : @buffer.Buffer
+}
+pub fn DimacsParser::check_header(Self) -> Unit raise DIMACSParseError
+pub fn DimacsParser::clause_count(Self) -> UInt64
+pub fn DimacsParser::eof(Self) -> Unit raise DIMACSParseError
+pub fn DimacsParser::header(Self) -> DimacsHeader?
+pub fn DimacsParser::new() -> Self
+pub fn DimacsParser::parse(Bytes) -> @formula.CnfFormula raise DIMACSParseError
+pub fn DimacsParser::parse_chunk(Self, Bytes) -> Unit raise DIMACSParseError
+pub fn DimacsParser::var_count(Self) -> UInt64
+
+// Type aliases
+
+// Traits
+

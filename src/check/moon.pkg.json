@@ -1,0 +1,9 @@
+{
+  "import": [
+    "moonbit-community/pomegranate/formula"
+  ],
+  "test-import": [
+    "moonbitlang/x/fs",
+    "moonbit-community/pomegranate/dimacs"
+  ]
+}
