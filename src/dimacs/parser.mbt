@@ -29,7 +29,7 @@ pub struct DimacsParser {
   mut in_header : Bool
   mut start_of_line : Bool
   mut error : Bool
-  mut header_line : StringView
+  mut header_line : @buffer.Buffer
 }
 
 ///|
@@ -48,7 +48,7 @@ pub fn DimacsParser::new() -> DimacsParser {
     in_header: false,
     start_of_line: true,
     error: false,
-    header_line: [],
+    header_line: @buffer.new(),
   }
 }
 
@@ -78,9 +78,7 @@ pub fn DimacsParser::parse_chunk(
   if self.error {
     raise DIMACSParseError::PreviousError
   }
-  let buf = StringBuilder::new()
-  for i in 0..<chunk.length() {
-    let byte = chunk[i]
+  for byte in chunk {
     if byte == '\n' {
       self.line_number += 1
     }
@@ -95,7 +93,7 @@ pub fn DimacsParser::parse_chunk(
       }
       _ if self.in_comment_or_header =>
         if self.in_header {
-          buf.write_char(byte.to_char())
+          self.header_line.write_byte(byte)
         }
       '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => {
         self.in_lit = true
@@ -132,7 +130,7 @@ pub fn DimacsParser::parse_chunk(
       b'p' if self.start_of_line && self.header is None => {
         self.in_comment_or_header = true
         self.in_header = true
-        buf.write_char(byte.to_char())
+        self.header_line.write_byte(byte)
       }
       _ => {
         self.error = true
@@ -143,7 +141,6 @@ pub fn DimacsParser::parse_chunk(
       }
     }
   }
-  self.header_line = buf.to_string()
 }
 
 ///|
@@ -250,9 +247,11 @@ fn DimacsParser::finish_literal(self : DimacsParser) -> Unit {
 fn DimacsParser::parse_header_line(
   self : DimacsParser,
 ) -> Unit raise DIMACSParseError {
-  let header_string = self.header_line
+  let header_string = @encoding/utf8.decode(self.header_line.to_bytes()) catch {
+    err => raise DecodeError(err)
+  }
   let parts_iter = if header_string is ['p', ' ', .. rest] {
-    rest.split(" ").collect().iter()
+    rest.split(" ").collect().iter().filter(sv => sv != "")
   } else {
     self.invalid_header(header_string)
     return
@@ -312,7 +311,7 @@ fn DimacsParser::parse_header_line(
   }
   self.header = Some(DimacsHeader::new(var_count, clause_count))
   self.formula.set_var_count(var_count)
-  self.header_line = ""
+  self.header_line = @buffer.new()
 }
 
 ///|
