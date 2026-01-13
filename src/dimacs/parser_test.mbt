@@ -47,3 +47,34 @@ test "invalid header data" {
     is Err(ClauseCount(clause_count=1, header_clause_count=4)),
   )
 }
+
+///|
+test "syntax errors" {
+  assert_true(
+    (try? DimacsParser::parse(b"1 2 ?foo"))
+    is Err(UnexpectedInputCharacter(unexpected='?', ..)),
+  )
+  assert_true(
+    (try? DimacsParser::parse(b"1 2 - 3 0"))
+    is Err(UnexpectedInputCharacter(unexpected=' ', ..)),
+  )
+  assert_true(
+    (try? DimacsParser::parse(b"1 2 -\n3 0"))
+    is Err(UnexpectedInputCharacter(unexpected='\n', ..)),
+  )
+  assert_true(
+    (try? DimacsParser::parse(b"1 2 --3 0"))
+    is Err(UnexpectedInputCharacter(unexpected='-', ..)),
+  )
+  assert_true(
+    (try? DimacsParser::parse(b"1 2-3 0"))
+    is Err(UnexpectedInputCharacter(unexpected='-', ..)),
+  )
+}
+
+///|
+test "unterminated_clause" {
+  assert_true(
+    (try? DimacsParser::parse(b"1 2 3")) is Err(UnterminatedClause(..)),
+  )
+}
