@@ -16,22 +16,29 @@ pub struct Var {
 /// Creates a variable from a 1-based index as used in the DIMCAS CNF encoding.
 ///
 /// The parameter must be positive
-pub fn Var::from_dimacs(number : UInt) -> Var raise FormulaError {
-  Var::from_index(number - 1)
+pub fn Var::from_dimacs(number : Int64) -> Var raise FormulaError {
+  Var::from_index((number - 1).reinterpret_as_uint64())
+}
+
+///|
+pub fn Var::to_dimacs(self : Var) -> Int64 {
+  (self.index + 1).to_int64()
 }
 
 ///|
 /// Creates a variable from a 0-based index.
 ///
 /// The index may not represent a variable past `Var::max_var()`.
-pub fn Var::from_index(index : UInt) -> Var raise FormulaError {
-  guard index < @uint.max_value >> 4 else { raise IndexTooLarge(index~) }
-  Var::{ index, }
+pub fn Var::from_index(index : UInt64) -> Var raise FormulaError {
+  guard index < @uint.max_value.to_uint64() >> 4 else {
+    raise IndexTooLarge(index~)
+  }
+  Var::{ index: index.to_uint() }
 }
 
 ///|
-pub fn Var::max_count() -> UInt {
-  (@uint.max_value >> 4) + 1
+pub fn Var::max_count() -> UInt64 {
+  (@uint.max_value >> 4).to_uint64() + 1
 }
 
 ///|
@@ -56,8 +63,15 @@ pub fn Lit::from_litidx(
   index : UInt,
   polarity : Bool,
 ) -> Lit raise FormulaError {
-  guard index <= (@uint.max_value >> 3) + 1 else { raise IndexTooLarge(index~) }
+  guard index <= (@uint.max_value >> 3) + 1 else {
+    raise IndexTooLarge(index=index.to_uint64())
+  }
   Lit::{ code: (index << 1) | (if polarity { 1 } else { 0 }) }
+}
+
+///|
+pub fn Lit::from_var(variable : Var, polarity : Bool) -> Lit raise FormulaError {
+  Lit::from_litidx(variable.index, polarity)
 }
 
 ///|
@@ -65,11 +79,45 @@ pub fn Lit::from_litidx(
 ///
 /// The absolute value is used as 1-based index, the sign of
 /// the integer is used as sign of the literal.
-pub fn Lit::from_dimacs(number : UInt) -> Lit raise FormulaError {
+pub fn Lit::from_dimacs(number : Int64) -> Lit raise FormulaError {
   Lit::from_litidx(Var::from_dimacs(number).index, number > 0)
 }
 
 ///|
-pub fn Lit::index(self : Lit) -> UInt {
-  self.code >> 1
+pub fn Lit::index(self : Lit) -> UInt64 {
+  (self.code >> 1).to_uint64()
+}
+
+///|
+pub fn Lit::to_var(self : Lit) -> Var {
+  Var::{ index: self.code >> 1 }
+}
+
+///|
+pub fn Lit::is_negative(self : Lit) -> Bool {
+  (self.code & 1) != 0
+}
+
+///|
+pub fn Lit::to_dimacs(self : Lit) -> Int64 {
+  let mut number = self.to_var().to_dimacs()
+  if self.is_negative() {
+    number = number.neg()
+  }
+  return number
+}
+
+///|
+pub impl ToJson for Lit with to_json(self) {
+  self.to_dimacs().to_json()
+}
+
+///|
+pub impl Show for Lit with output(self, logger) {
+  logger.write_object(self.to_dimacs())
+}
+
+///|
+test "roundtrip" {
+
 }

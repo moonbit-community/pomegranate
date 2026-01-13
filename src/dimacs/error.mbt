@@ -2,11 +2,11 @@
 /// Possible errors while parsing a DIMACS CNF formula.
 pub suberror DIMACSParseError {
   UnexpectedInputCharacter(line~ : Int, unexpected~ : Char)
-  LiteralTooLarge(line~ : Int, index~ : UInt, final_digit~ : UInt)
+  LiteralTooLarge(line~ : Int, index~ : UInt64, final_digit~ : UInt64)
   InvalidHeader(line~ : Int, header~ : StringView)
   UnterminatedClause(line~ : Int)
-  VarCount(var_count~ : UInt, header_var_count~ : UInt)
-  ClauseCount(clause_count~ : UInt, header_clause_count~ : UInt)
+  VarCount(var_count~ : UInt64, header_var_count~ : UInt64)
+  ClauseCount(clause_count~ : UInt64, header_clause_count~ : UInt64)
   PreviousError
 }
 

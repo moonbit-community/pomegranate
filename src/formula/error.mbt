@@ -1,4 +1,4 @@
 ///|
 pub suberror FormulaError {
-  IndexTooLarge(index~ : UInt)
+  IndexTooLarge(index~ : UInt64)
 }

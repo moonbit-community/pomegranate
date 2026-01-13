@@ -1,11 +1,14 @@
 ///|
 pub struct DimacsHeader {
-  var_count : UInt
-  clause_count : UInt
+  var_count : UInt64
+  clause_count : UInt64
 }
 
 ///|
-pub fn DimacsHeader::new(var_count : UInt, clause_count : UInt) -> DimacsHeader {
+pub fn DimacsHeader::new(
+  var_count : UInt64,
+  clause_count : UInt64,
+) -> DimacsHeader {
   DimacsHeader::{ var_count, clause_count }
 }
 
@@ -18,8 +21,8 @@ pub struct DimacsParser {
   partial_clause : Array[Lit]
   mut header : DimacsHeader?
   mut line_number : Int
-  mut clause_count : UInt
-  mut partial_lit : UInt
+  mut clause_count : UInt64
+  mut partial_lit : UInt64
   mut negate_next_lit : Bool
   mut in_lit : Bool
   mut in_comment_or_header : Bool
@@ -96,12 +99,12 @@ pub fn DimacsParser::parse_chunk(
         }
       '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => {
         self.in_lit = true
-        let digit = (byte - b'0').to_uint()
+        let digit = (byte - b'0').to_uint64()
         let can_overflow = Var::max_count() / 10
         let overflow_digit = Var::max_count() % 10
         // Overflow check
         if can_overflow <= self.partial_lit {
-          let carry = if digit <= overflow_digit { 1U } else { 0U }
+          let carry = if digit <= overflow_digit { 1UL } else { 0UL }
           if can_overflow + carry <= self.partial_lit {
             self.error = true
             raise DIMACSParseError::LiteralTooLarge(
@@ -210,13 +213,13 @@ pub fn DimacsParser::header(self : DimacsParser) -> DimacsHeader? {
 
 ///|
 /// Number of clauses parsed.
-pub fn DimacsParser::clause_count(self : DimacsParser) -> UInt {
+pub fn DimacsParser::clause_count(self : DimacsParser) -> UInt64 {
   self.clause_count
 }
 
 ///|
 /// Number of variables in the parsed formula.
-pub fn DimacsParser::var_count(self : DimacsParser) -> UInt {
+pub fn DimacsParser::var_count(self : DimacsParser) -> UInt64 {
   self.formula.var_count
 }
 
@@ -231,8 +234,10 @@ fn DimacsParser::finish_literal(self : DimacsParser) -> Unit {
       self.clause_count += 1
     } else {
       // Add literal to current clause
-      let variable = Var::from_dimacs(self.partial_lit) catch { _ => panic() }
-      let lit = Lit::from_litidx(variable.index, not(self.negate_next_lit)) catch {
+      let variable = Var::from_dimacs(self.partial_lit.reinterpret_as_int64()) catch {
+        _ => panic()
+      }
+      let lit = Lit::from_var(variable, not(self.negate_next_lit)) catch {
         _ => panic()
       }
       self.partial_clause.push(lit)
@@ -265,7 +270,7 @@ fn DimacsParser::parse_header_line(
   // Parse variable count
   let var_count = match parts_iter.next() {
     Some(s) =>
-      @strconv.parse_uint(s) catch {
+      @strconv.parse_uint64(s) catch {
         _ => {
           self.invalid_header(header_string)
           return
@@ -288,7 +293,7 @@ fn DimacsParser::parse_header_line(
   // Parse clause count
   let clause_count = match parts_iter.next() {
     Some(s) =>
-      @strconv.parse_uint(s) catch {
+      @strconv.parse_uint64(s) catch {
         _ => {
           self.invalid_header(header_string)
           return
