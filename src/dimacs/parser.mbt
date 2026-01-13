@@ -247,7 +247,7 @@ fn DimacsParser::parse_header_line(
 ) -> Unit raise DIMACSParseError {
   let header_string = self.header_line
   let parts_iter = if header_string is ['p', ' ', .. rest] {
-    rest.split(" ").collect().iterator()
+    rest.split(" ").collect().iter()
   } else {
     self.invalid_header(header_string)
     return
