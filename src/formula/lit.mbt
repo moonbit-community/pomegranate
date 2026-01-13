@@ -66,7 +66,7 @@ pub fn Lit::from_litidx(
   guard index <= (@uint.max_value >> 3) + 1 else {
     raise IndexTooLarge(index=index.to_uint64())
   }
-  Lit::{ code: (index << 1) | (if polarity { 1 } else { 0 }) }
+  Lit::{ code: (index << 1) | (if polarity { 0 } else { 1 }) }
 }
 
 ///|
@@ -80,7 +80,7 @@ pub fn Lit::from_var(variable : Var, polarity : Bool) -> Lit raise FormulaError 
 /// The absolute value is used as 1-based index, the sign of
 /// the integer is used as sign of the literal.
 pub fn Lit::from_dimacs(number : Int64) -> Lit raise FormulaError {
-  Lit::from_litidx(Var::from_dimacs(number).index, number > 0)
+  Lit::from_var(Var::from_dimacs(number.abs()), number > 0)
 }
 
 ///|
@@ -119,5 +119,6 @@ pub impl Show for Lit with output(self, logger) {
 
 ///|
 test "roundtrip" {
-
+  inspect(Lit::from_dimacs(-4), content="-4")
+  inspect(Lit::from_dimacs(4), content="4")
 }
