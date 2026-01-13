@@ -28,7 +28,8 @@ pub fn CnfFormula::add_clause(
   self.literals.append(clause)
   let end = self.literals.length()
   for lit in self.literals[begin:end] {
-    self.var_count = @cmp.maximum(lit.index(), self.var_count)
+    // var_count tracks number of variables, so it is max index + 1.
+    self.var_count = @cmp.maximum(lit.index() + 1, self.var_count)
   }
   self.clause_ranges.push((begin, end))
 }

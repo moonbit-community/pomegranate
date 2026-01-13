@@ -40,6 +40,7 @@ pub impl Show for DIMACSParseError with output(self, logger) {
   }
 }
 
+///|
 pub impl ToJson for DIMACSParseError with to_json(self) {
   Json::string(self.to_string())
 }

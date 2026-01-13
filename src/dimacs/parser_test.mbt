@@ -32,17 +32,18 @@ test "invalid headers" {
   )
 }
 
+///|
 test "invalid header data" {
   assert_true(
     (try? DimacsParser::parse(b"p cnf 1 1\n 2 0"))
-    is Err(VarCount(var_count=2, header_var_count=1))
+    is Err(VarCount(var_count=2, header_var_count=1)),
   )
   assert_true(
     (try? DimacsParser::parse(b"p cnf 10 1\n 1 0 0"))
-    is Err(ClauseCount(clause_count=2, header_clause_count=1))
+    is Err(ClauseCount(clause_count=2, header_clause_count=1)),
   )
   assert_true(
     (try? DimacsParser::parse(b"p cnf 10 4\n 1 0"))
-    is Err(ClauseCount(clause_count=1, header_clause_count=4))
+    is Err(ClauseCount(clause_count=1, header_clause_count=4)),
   )
 }
