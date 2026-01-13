@@ -39,3 +39,7 @@ pub impl Show for DIMACSParseError with output(self, logger) {
       logger.write_string("Parser invoked after a previous error")
   }
 }
+
+pub impl ToJson for DIMACSParseError with to_json(self) {
+  Json::string(self.to_string())
+}

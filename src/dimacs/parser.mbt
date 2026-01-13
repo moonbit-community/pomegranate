@@ -17,7 +17,7 @@ pub fn DimacsHeader::new(
 ///
 /// This parser can consume the input in chunks while also producing the parsed result in chunks.
 pub struct DimacsParser {
-  mut formula : CnfFormula
+  formula : CnfFormula
   partial_clause : Array[Lit]
   mut header : DimacsHeader?
   mut line_number : Int
@@ -61,7 +61,7 @@ pub fn DimacsParser::parse(input : Bytes) -> CnfFormula raise DIMACSParseError {
   parser.parse_chunk(input)
   parser.eof()
   parser.check_header()
-  parser.take_formula()
+  parser.formula
 }
 
 ///|
@@ -183,23 +183,6 @@ pub fn DimacsParser::check_header(
     }
     None => ()
   }
-}
-
-///|
-/// Returns the subformula of everything parsed since the last call to this method.
-///
-/// To parse the whole input into a single CnfFormula, simply
-/// call this method once after calling eof. For incremental parsing this
-/// method can be invoked after each call of parse_chunk.
-///
-/// The variable count of the returned formula will be the maximum of the variable count so far
-/// and the variable count of the header if present.
-pub fn DimacsParser::take_formula(self : DimacsParser) -> CnfFormula {
-  let new_formula = CnfFormula::default()
-  new_formula.set_var_count(self.formula.var_count)
-  let old_formula = self.formula
-  self.formula = new_formula
-  old_formula
 }
 
 ///|
