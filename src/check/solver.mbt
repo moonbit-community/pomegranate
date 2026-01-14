@@ -52,6 +52,35 @@ priv struct Solver {
 }
 
 ///|
+/// Lightweight DPLL solver for small formulas to avoid clause explosion.
+priv struct DpllSolver {
+  clauses : Array[Array[Lit]]
+  assignment : Array[Int]
+  trail : Array[Lit]
+  mut has_empty_clause : Bool
+}
+
+///|
+fn DpllSolver::new(formula : CnfFormula) -> DpllSolver {
+  let var_count = formula.var_count().to_int()
+  let clause_count = formula.clause_count()
+  let clauses = Array::makei(clause_count, i => formula.clause(i).to_array())
+  let solver = {
+    clauses,
+    assignment: Array::make(var_count, -1),
+    trail: [],
+    has_empty_clause: false,
+  }
+  for clause in clauses {
+    if clause.is_empty() {
+      solver.has_empty_clause = true
+      break
+    }
+  }
+  solver
+}
+
+///|
 /// Build solver state and initialize watch lists and unit clauses.
 fn Solver::new(formula : CnfFormula) -> Solver {
   let var_count = formula.var_count().to_int()
@@ -149,6 +178,127 @@ fn Solver::lit_value(self : Solver, lit : Lit) -> Int {
 }
 
 ///|
+fn DpllSolver::lit_value(self : DpllSolver, lit : Lit) -> Int {
+  let idx = lit.index().to_int()
+  let val = self.assignment[idx]
+  if val == -1 {
+    -1
+  } else if lit.is_negative() {
+    1 - val
+  } else {
+    val
+  }
+}
+
+///|
+fn DpllSolver::assign(self : DpllSolver, lit : Lit) -> Bool {
+  let idx = lit.index().to_int()
+  let val = if lit.is_negative() { 0 } else { 1 }
+  let current = self.assignment[idx]
+  if current == -1 {
+    self.assignment[idx] = val
+    self.trail.push(lit)
+    true
+  } else {
+    current == val
+  }
+}
+
+///|
+fn DpllSolver::backtrack(self : DpllSolver, trail_len : Int) -> Unit {
+  for i in trail_len..<self.trail.length() {
+    let lit = self.trail[i]
+    let v = lit.index().to_int()
+    self.assignment[v] = -1
+  }
+  self.trail.truncate(trail_len)
+}
+
+///|
+fn DpllSolver::pick_unassigned(self : DpllSolver) -> Int? {
+  for i in 0..<self.assignment.length() {
+    if self.assignment[i] == -1 {
+      return Some(i)
+    }
+  }
+  None
+}
+
+///|
+fn DpllSolver::propagate(self : DpllSolver) -> Bool {
+  let mut changed = true
+  while changed {
+    changed = false
+    for clause in self.clauses {
+      let mut clause_sat = false
+      let mut unassigned = 0
+      let mut unit_lit = clause[0]
+      for lit in clause {
+        let val = self.lit_value(lit)
+        if val == 1 {
+          clause_sat = true
+          break
+        }
+        if val == -1 {
+          unassigned += 1
+          unit_lit = lit
+          if unassigned > 1 {
+            // Still need to keep scanning for a satisfying literal.
+            ()
+          }
+        }
+      }
+      if clause_sat {
+        continue
+      }
+      if unassigned == 0 {
+        return false
+      }
+      if unassigned == 1 {
+        if not(self.assign(unit_lit)) {
+          return false
+        }
+        changed = true
+      }
+    }
+  }
+  true
+}
+
+///|
+fn DpllSolver::solve(self : DpllSolver) -> Bool {
+  if not(self.propagate()) {
+    return false
+  }
+  match self.pick_unassigned() {
+    None => true
+    Some(var_idx) => {
+      let trail_len = self.trail.length()
+      let lit_pos = lit_from_index(var_idx, true)
+      if self.assign(lit_pos) && self.solve() {
+        return true
+      }
+      self.backtrack(trail_len)
+      let lit_neg = lit_from_index(var_idx, false)
+      if self.assign(lit_neg) && self.solve() {
+        return true
+      }
+      self.backtrack(trail_len)
+      false
+    }
+  }
+}
+
+///|
+fn DpllSolver::build_model(self : DpllSolver) -> Array[Bool] {
+  let model = Array::make(self.assignment.length(), false)
+  for i, val in self.assignment {
+    model[i] = val == 1
+  }
+  model
+}
+
+///|
 /// Assign a literal and record its reason and decision level.
 /// Returns false if the assignment conflicts with an existing value.
 fn Solver::assign(self : Solver, lit : Lit, reason? : Int) -> Bool {
@@ -178,6 +328,7 @@ fn Solver::propagate(self : Solver) -> Int? {
     let neg_watch = negate_id(lit_id(lit))
     let watch_list = self.watches[neg_watch]
     let mut i = 0
+    let mut conflict : Int? = None
     while i < watch_list.length() {
       let clause_idx = watch_list[i]
       let clause = self.clauses[clause_idx]
@@ -203,7 +354,12 @@ fn Solver::propagate(self : Solver) -> Int? {
             } else {
               self.watch_b[clause_idx] = j
             }
-            self.watches[lit_id(cand)].push(clause_idx)
+            let cand_id = lit_id(cand)
+            if cand_id == neg_watch {
+              watch_list.push(clause_idx)
+            } else {
+              self.watches[cand_id].push(clause_idx)
+            }
             let last_index = watch_list.length() - 1
             watch_list[i] = watch_list[last_index]
             let _ = watch_list.pop()
@@ -218,13 +374,20 @@ fn Solver::propagate(self : Solver) -> Int? {
       if other_val == -1 {
         // Clause is unit: force the other watched literal.
         if not(self.assign(other_lit, reason=clause_idx)) {
-          return Some(clause_idx)
+          conflict = Some(clause_idx)
+          break
         }
         i += 1
       } else {
         // Both watched literals are false: conflict.
-        return Some(clause_idx)
+        conflict = Some(clause_idx)
+        break
       }
+    }
+    self.watches[neg_watch] = watch_list
+    match conflict {
+      Some(idx) => return Some(idx)
+      None => ()
     }
   }
   None
@@ -360,6 +523,18 @@ fn Solver::build_model(self : Solver) -> Array[Bool] {
 ///
 /// The returned model assigns every variable index present in the formula.
 pub fn solve(formula : CnfFormula) -> SolveResult {
+  let var_count = formula.var_count().to_int()
+  let clause_count = formula.clause_count()
+  if var_count <= 64 && clause_count <= 256 {
+    let solver = DpllSolver::new(formula)
+    if solver.has_empty_clause {
+      return Unsat
+    }
+    if solver.solve() {
+      return Sat(model=solver.build_model())
+    }
+    return Unsat
+  }
   let solver = Solver::new(formula)
   if solver.has_empty_clause {
     return Unsat
