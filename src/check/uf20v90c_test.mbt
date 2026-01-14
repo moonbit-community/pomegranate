@@ -54,15 +54,16 @@ test "uf20-0103.cnf" {
 test "uf20-0899.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0899.cnf")
 }
-// FIX THIS
-// test "uf20-0743.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0743.cnf")
-// }
 
-// FIX THIS
-// test "uf20-0490.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0490.cnf")
-// }
+///|
+test "uf20-0743.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0743.cnf")
+}
+
+///|
+test "uf20-0490.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0490.cnf")
+}
 
 ///|
 test "uf20-027.cnf" {
@@ -149,10 +150,10 @@ test "uf20-04.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-04.cnf")
 }
 
-// FIX THIS
-// test "uf20-0168.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0168.cnf")
-// }
+///|
+test "uf20-0168.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0168.cnf")
+}
 
 ///|
 test "uf20-0472.cnf" {
@@ -310,10 +311,10 @@ test "uf20-0229.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0229.cnf")
 }
 
-// FIX THIS
-// test "uf20-0458.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0458.cnf")
-// }
+///|
+test "uf20-0458.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0458.cnf")
+}
 
 ///|
 test "uf20-0804.cnf" {
@@ -378,10 +379,10 @@ test "uf20-0645.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0645.cnf")
 }
 
-// FIX THIS
-// test "uf20-0202.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0202.cnf")
-// }
+///|
+test "uf20-0202.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0202.cnf")
+}
 
 ///|
 test "uf20-0382.cnf" {
@@ -555,13 +556,11 @@ test "uf20-0530.cnf" {
 test "uf20-0898.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0898.cnf")
 }
-//
 
-// FIX THIS
-// test "uf20-0739.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0739.cnf")
-// }
-//
+///|
+test "uf20-0739.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0739.cnf")
+}
 
 ///|
 test "uf20-0150.cnf" {
@@ -604,11 +603,10 @@ test "uf20-0854.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0854.cnf")
 }
 
-// FIX THIS
-// test "uf20-0568.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0568.cnf")
-// }
-//
+///|
+test "uf20-0568.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0568.cnf")
+}
 
 ///|
 test "uf20-0624.cnf" {
@@ -663,11 +661,10 @@ test "uf20-0917.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0917.cnf")
 }
 
-// FIX THIS
-// test "uf20-0146.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-0146.cnf")
-// }
-//
+///|
+test "uf20-0146.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0146.cnf")
+}
 
 ///|
 test "uf20-0680.cnf" {
@@ -747,10 +744,10 @@ test "uf20-0643.cnf" {
 }
 //
 
-// FIX THIS
-// test "uf20-096.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-096.cnf")
-// }
+///|
+test "uf20-096.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-096.cnf")
+}
 
 ///|
 test "uf20-0513.cnf" {
@@ -888,10 +885,10 @@ test "uf20-0619.cnf" {
 }
 //
 
-// FIX THIS
-// test "uf20-0768.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0768.cnf")
-// }
+///|
+test "uf20-0768.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0768.cnf")
+}
 
 ///|
 test "uf20-0833.cnf" {
@@ -970,11 +967,10 @@ test "uf20-0754.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0754.cnf")
 }
 
-// FIX THIS
-// test "uf20-089.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-089.cnf")
-// }
-//
+///|
+test "uf20-089.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-089.cnf")
+}
 
 ///|
 test "uf20-0829.cnf" {
@@ -987,11 +983,10 @@ test "uf20-0543.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0543.cnf")
 }
 
-// FIX THIS
-// test "uf20-0173.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-0173.cnf")
-// }
-//
+///|
+test "uf20-0173.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0173.cnf")
+}
 
 ///|
 test "uf20-0788.cnf" {
@@ -1040,11 +1035,10 @@ test "uf20-0525.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0525.cnf")
 }
 
-// FIX THIS
-// test "uf20-0177.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-0177.cnf")
-// }
-//
+///|
+test "uf20-0177.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0177.cnf")
+}
 
 ///|
 test "uf20-0338.cnf" {
@@ -1213,11 +1207,10 @@ test "uf20-0337.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0337.cnf")
 }
 
-// FIX THIS
-// test "uf20-0985.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-0985.cnf")
-// }
-//
+///|
+test "uf20-0985.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0985.cnf")
+}
 
 ///|
 test "uf20-0778.cnf" {
@@ -1310,10 +1303,10 @@ test "uf20-0313.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0313.cnf")
 }
 
-// FIX THIS
-// test "uf20-0938.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0938.cnf")
-// }
+///|
+test "uf20-0938.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0938.cnf")
+}
 
 ///|
 test "uf20-0678.cnf" {
@@ -1380,11 +1373,10 @@ test "uf20-0392.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0392.cnf")
 }
 
-// FIX THIS
-// test "uf20-0442.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-0442.cnf")
-// }
-//
+///|
+test "uf20-0442.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0442.cnf")
+}
 
 ///|
 test "uf20-0861.cnf" {
@@ -1397,17 +1389,15 @@ test "uf20-0247.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0247.cnf")
 }
 
-// FIX THIS
-// test "uf20-0712.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-0712.cnf")
-// }
-// 
+///|
+test "uf20-0712.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0712.cnf")
+}
 
-// FIX THIS
-// test "uf20-0825.cnf" {
-// test_sat("./dimacs/uf20v91c/uf20-0825.cnf")
-// }
-//
+///|
+test "uf20-0825.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0825.cnf")
+}
 
 ///|
 test "uf20-0894.cnf" {
@@ -1795,10 +1785,10 @@ test "uf20-0212.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0212.cnf")
 }
 
-// FIX THIS
-// test "uf20-0133.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0133.cnf")
-// }
+///|
+test "uf20-0133.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0133.cnf")
+}
 
 ///|
 test "uf20-0272.cnf" {
@@ -1845,10 +1835,10 @@ test "uf20-0521.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0521.cnf")
 }
 
-// FIX THIS
-// test "uf20-0613.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0613.cnf")
-// }
+///|
+test "uf20-0613.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0613.cnf")
+}
 
 ///|
 test "uf20-0668.cnf" {
@@ -1925,10 +1915,10 @@ test "uf20-0886.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0886.cnf")
 }
 
-// FIX THIS
-// test "uf20-0793.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0793.cnf")
-// }
+///|
+test "uf20-0793.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0793.cnf")
+}
 
 ///|
 test "uf20-080.cnf" {
@@ -1970,10 +1960,10 @@ test "uf20-0260.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0260.cnf")
 }
 
-// FIX THIS
-// test "uf20-0603.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0603.cnf")
-// }
+///|
+test "uf20-0603.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0603.cnf")
+}
 
 ///|
 test "uf20-0238.cnf" {
@@ -2075,10 +2065,10 @@ test "uf20-0488.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0488.cnf")
 }
 
-// FIX THIS
-// test "uf20-0209.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0209.cnf")
-// }
+///|
+test "uf20-0209.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0209.cnf")
+}
 
 ///|
 test "uf20-0112.cnf" {
@@ -2120,10 +2110,10 @@ test "uf20-083.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-083.cnf")
 }
 
-// FIX THIS
-// test "uf20-0349.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0349.cnf")
-// }
+///|
+test "uf20-0349.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0349.cnf")
+}
 
 ///|
 test "uf20-035.cnf" {
@@ -2220,20 +2210,20 @@ test "uf20-0122.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0122.cnf")
 }
 
-// FIX THIS
-// test "uf20-0454.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0454.cnf")
-// }
+///|
+test "uf20-0454.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0454.cnf")
+}
 
 ///|
 test "uf20-0367.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0367.cnf")
 }
 
-// FIX THIS
-// test "uf20-0721.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0721.cnf")
-// }
+///|
+test "uf20-0721.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0721.cnf")
+}
 
 ///|
 test "uf20-0988.cnf" {
@@ -2260,10 +2250,10 @@ test "uf20-0233.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0233.cnf")
 }
 
-// FIX THIS
-// test "uf20-0527.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0527.cnf")
-// }
+///|
+test "uf20-0527.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0527.cnf")
+}
 
 ///|
 test "uf20-0809.cnf" {
@@ -2295,10 +2285,10 @@ test "uf20-0632.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0632.cnf")
 }
 
-// FIX THIS
-// test "uf20-0449.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0449.cnf")
-// }
+///|
+test "uf20-0449.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0449.cnf")
+}
 
 ///|
 test "uf20-0602.cnf" {
@@ -2330,10 +2320,10 @@ test "uf20-0952.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0952.cnf")
 }
 
-// FIX THIS
-// test "uf20-0944.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0944.cnf")
-// }
+///|
+test "uf20-0944.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0944.cnf")
+}
 
 ///|
 test "uf20-0277.cnf" {
@@ -2550,10 +2540,10 @@ test "uf20-0341.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0341.cnf")
 }
 
-// FIX THIS
-// test "uf20-0670.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0670.cnf")
-// }
+///|
+test "uf20-0670.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0670.cnf")
+}
 
 ///|
 test "uf20-0661.cnf" {
@@ -2605,10 +2595,10 @@ test "uf20-0113.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0113.cnf")
 }
 
-// FIX THIS
-// test "uf20-0201.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0201.cnf")
-// }
+///|
+test "uf20-0201.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0201.cnf")
+}
 
 ///|
 test "uf20-0559.cnf" {
@@ -2625,10 +2615,10 @@ test "uf20-0975.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0975.cnf")
 }
 
-// FIX THIS
-// test "uf20-0175.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0175.cnf")
-// }
+///|
+test "uf20-0175.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0175.cnf")
+}
 
 ///|
 test "uf20-0871.cnf" {
@@ -2650,15 +2640,15 @@ test "uf20-0193.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0193.cnf")
 }
 
-// FIX THIS
-// test "uf20-0301.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0301.cnf")
-// }
+///|
+test "uf20-0301.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0301.cnf")
+}
 
-// FIX THIS
-// test "uf20-0577.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0577.cnf")
-// }
+///|
+test "uf20-0577.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0577.cnf")
+}
 
 ///|
 test "uf20-0214.cnf" {
@@ -2715,15 +2705,15 @@ test "uf20-026.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-026.cnf")
 }
 
-// FIX THIS
-// test "uf20-0342.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0342.cnf")
-// }
+///|
+test "uf20-0342.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0342.cnf")
+}
 
-// FIX THIS
-// test "uf20-0703.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0703.cnf")
-// }
+///|
+test "uf20-0703.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0703.cnf")
+}
 
 ///|
 test "uf20-0859.cnf" {
@@ -2745,10 +2735,10 @@ test "uf20-0444.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0444.cnf")
 }
 
-// FIX THIS
-// test "uf20-0178.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0178.cnf")
-// }
+///|
+test "uf20-0178.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0178.cnf")
+}
 
 ///|
 test "uf20-0855.cnf" {
@@ -2825,20 +2815,20 @@ test "uf20-0132.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0132.cnf")
 }
 
-// FIX THIS
-// test "uf20-0584.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0584.cnf")
-// }
+///|
+test "uf20-0584.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0584.cnf")
+}
 
 ///|
 test "uf20-0824.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0824.cnf")
 }
 
-// FIX THIS
-// test "uf20-0171.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0171.cnf")
-// }
+///|
+test "uf20-0171.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0171.cnf")
+}
 
 ///|
 test "uf20-0718.cnf" {
@@ -2990,10 +2980,10 @@ test "uf20-0550.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0550.cnf")
 }
 
-// FIX THIS
-// test "uf20-0693.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0693.cnf")
-// }
+///|
+test "uf20-0693.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0693.cnf")
+}
 
 ///|
 test "uf20-0794.cnf" {
@@ -3025,10 +3015,10 @@ test "uf20-0483.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0483.cnf")
 }
 
-// FIX THIS
-// test "uf20-0512.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0512.cnf")
-// }
+///|
+test "uf20-0512.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0512.cnf")
+}
 
 ///|
 test "uf20-0563.cnf" {
@@ -3130,10 +3120,10 @@ test "uf20-0191.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0191.cnf")
 }
 
-// FIX THIS
-// test "uf20-024.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-024.cnf")
-// }
+///|
+test "uf20-024.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-024.cnf")
+}
 
 ///|
 test "uf20-0753.cnf" {
@@ -3385,15 +3375,15 @@ test "uf20-0350.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0350.cnf")
 }
 
-// FIX THIS
-// test "uf20-0682.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0682.cnf")
-// }
+///|
+test "uf20-0682.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0682.cnf")
+}
 
-// FIX THIS
-// test "uf20-08.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-08.cnf")
-// }
+///|
+test "uf20-08.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-08.cnf")
+}
 
 ///|
 test "uf20-0121.cnf" {
@@ -3550,10 +3540,10 @@ test "uf20-0685.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0685.cnf")
 }
 
-// FIX THIS
-// test "uf20-0642.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0642.cnf")
-// }
+///|
+test "uf20-0642.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0642.cnf")
+}
 
 ///|
 test "uf20-0275.cnf" {
@@ -3595,10 +3585,10 @@ test "uf20-0159.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0159.cnf")
 }
 
-// FIX THIS
-// test "uf20-051.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-051.cnf")
-// }
+///|
+test "uf20-051.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-051.cnf")
+}
 
 ///|
 test "uf20-098.cnf" {
@@ -3620,10 +3610,10 @@ test "uf20-0795.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0795.cnf")
 }
 
-// FIX THIS
-// test "uf20-0925.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0925.cnf")
-// }
+///|
+test "uf20-0925.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0925.cnf")
+}
 
 ///|
 test "uf20-0358.cnf" {
@@ -3790,10 +3780,10 @@ test "uf20-0174.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0174.cnf")
 }
 
-// FIX THIS
-// test "uf20-0408.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0408.cnf")
-// }
+///|
+test "uf20-0408.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0408.cnf")
+}
 
 ///|
 test "uf20-0617.cnf" {
@@ -3820,10 +3810,10 @@ test "uf20-0838.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0838.cnf")
 }
 
-// FIX THIS
-// test "uf20-018.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-018.cnf")
-// }
+///|
+test "uf20-018.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-018.cnf")
+}
 
 ///|
 test "uf20-074.cnf" {
@@ -3955,10 +3945,10 @@ test "uf20-0498.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0498.cnf")
 }
 
-// FIX THIS
-// test "uf20-0933.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0933.cnf")
-// }
+///|
+test "uf20-0933.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0933.cnf")
+}
 
 ///|
 test "uf20-0873.cnf" {
@@ -4040,10 +4030,10 @@ test "uf20-0396.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0396.cnf")
 }
 
-// FIX THIS
-// test "uf20-0469.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0469.cnf")
-// }
+///|
+test "uf20-0469.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0469.cnf")
+}
 
 ///|
 test "uf20-0336.cnf" {
@@ -4120,10 +4110,10 @@ test "uf20-0704.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0704.cnf")
 }
 
-// FIX THIS
-// test "uf20-0728.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0728.cnf")
-// }
+///|
+test "uf20-0728.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0728.cnf")
+}
 
 ///|
 test "uf20-0622.cnf" {
@@ -4140,10 +4130,10 @@ test "uf20-0551.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0551.cnf")
 }
 
-// FIX THIS
-// test "uf20-0875.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0875.cnf")
-// }
+///|
+test "uf20-0875.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0875.cnf")
+}
 
 ///|
 test "uf20-0989.cnf" {
@@ -4465,10 +4455,10 @@ test "uf20-0666.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0666.cnf")
 }
 
-// FIX THIS
-// test "uf20-0943.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0943.cnf")
-// }
+///|
+test "uf20-0943.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0943.cnf")
+}
 
 ///|
 test "uf20-0857.cnf" {
@@ -4585,10 +4575,10 @@ test "uf20-0934.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0934.cnf")
 }
 
-// FIX THIS
-// test "uf20-0588.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0588.cnf")
-// }
+///|
+test "uf20-0588.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0588.cnf")
+}
 
 ///|
 test "uf20-0782.cnf" {
@@ -4890,10 +4880,10 @@ test "uf20-0108.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0108.cnf")
 }
 
-// FIX THIS
-// test "uf20-0836.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0836.cnf")
-// }
+///|
+test "uf20-0836.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0836.cnf")
+}
 
 ///|
 test "uf20-0165.cnf" {
@@ -4950,10 +4940,10 @@ test "uf20-0878.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0878.cnf")
 }
 
-// FIX THIS
-// test "uf20-0345.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0345.cnf")
-// }
+///|
+test "uf20-0345.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0345.cnf")
+}
 
 ///|
 test "uf20-0876.cnf" {
@@ -5100,10 +5090,10 @@ test "uf20-0842.cnf" {
   test_sat("./dimacs/uf20v91c/uf20-0842.cnf")
 }
 
-// FIX THIS
-// test "uf20-0383.cnf" {
-//   test_sat("./dimacs/uf20v91c/uf20-0383.cnf")
-// }
+///|
+test "uf20-0383.cnf" {
+  test_sat("./dimacs/uf20v91c/uf20-0383.cnf")
+}
 
 ///|
 test "uf20-0924.cnf" {
