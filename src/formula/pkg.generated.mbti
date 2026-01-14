@@ -1,0 +1,51 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbit-community/pomegranate/formula"
+
+// Values
+
+// Errors
+pub suberror FormulaError {
+  IndexTooLarge(index~ : UInt64)
+}
+pub impl Show for FormulaError
+
+// Types and methods
+pub struct CnfFormula {
+  mut var_count : UInt64
+  literals : Array[Lit]
+  clause_ranges : Array[(Int, Int)]
+}
+pub fn CnfFormula::add_clause(Self, ArrayView[Lit]) -> Unit
+pub fn CnfFormula::clause(Self, Int) -> ArrayView[Lit]
+pub fn CnfFormula::clause_count(Self) -> Int
+pub fn CnfFormula::new_var(Self) -> Var raise FormulaError
+pub fn CnfFormula::set_var_count(Self, UInt64) -> Unit
+pub fn CnfFormula::var_count(Self) -> UInt64
+pub impl Default for CnfFormula
+pub impl ToJson for CnfFormula
+
+pub struct Lit {
+  code : UInt
+}
+pub fn Lit::from_dimacs(Int64) -> Self raise FormulaError
+pub fn Lit::from_litidx(UInt, Bool) -> Self raise FormulaError
+pub fn Lit::from_var(Var, Bool) -> Self raise FormulaError
+pub fn Lit::index(Self) -> UInt64
+pub fn Lit::is_negative(Self) -> Bool
+pub fn Lit::to_dimacs(Self) -> Int64
+pub fn Lit::to_var(Self) -> Var
+pub impl Show for Lit
+pub impl ToJson for Lit
+
+pub struct Var {
+  index : UInt
+}
+pub fn Var::from_dimacs(Int64) -> Self raise FormulaError
+pub fn Var::from_index(UInt64) -> Self raise FormulaError
+pub fn Var::max_count() -> UInt64
+pub fn Var::to_dimacs(Self) -> Int64
+
+// Type aliases
+
+// Traits
+

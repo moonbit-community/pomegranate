@@ -205,7 +205,9 @@ pub fn DimacsParser::var_count(self : DimacsParser) -> UInt64 {
 
 ///|
 /// Finish processing a literal and add it to the current clause or finish the clause.
-fn DimacsParser::finish_literal(self : DimacsParser) -> Unit {
+fn DimacsParser::finish_literal(
+  self : DimacsParser,
+) -> Unit raise DIMACSParseError {
   if self.in_lit {
     if self.partial_lit == 0 {
       // End of clause
@@ -215,10 +217,16 @@ fn DimacsParser::finish_literal(self : DimacsParser) -> Unit {
     } else {
       // Add literal to current clause
       let variable = Var::from_dimacs(self.partial_lit.reinterpret_as_int64()) catch {
-        _ => panic()
+        err => {
+          self.error = true
+          raise DIMACSParseError::FormulaError(err)
+        }
       }
       let lit = Lit::from_var(variable, not(self.negate_next_lit)) catch {
-        _ => panic()
+        err => {
+          self.error = true
+          raise DIMACSParseError::FormulaError(err)
+        }
       }
       self.partial_clause.push(lit)
     }

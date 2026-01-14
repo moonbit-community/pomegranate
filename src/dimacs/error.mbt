@@ -7,6 +7,7 @@ pub suberror DIMACSParseError {
   UnterminatedClause(line~ : Int)
   VarCount(var_count~ : UInt64, header_var_count~ : UInt64)
   ClauseCount(clause_count~ : UInt64, header_clause_count~ : UInt64)
+  FormulaError(FormulaError)
   DecodeError(@encoding/utf8.Malformed)
   PreviousError
 }
@@ -34,6 +35,7 @@ pub impl Show for DIMACSParseError with output(self, logger) {
       logger.write_string(
         "Formula has \{clause_count} clauses while the header specifies \{header_clause_count} clauses",
       )
+    FormulaError(err) => logger.write_string("Formula error: \{err}")
     DecodeError(_) => logger.write_string("Decode Error")
     PreviousError =>
       logger.write_string("Parser invoked after a previous error")

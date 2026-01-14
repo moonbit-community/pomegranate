@@ -48,3 +48,19 @@ pub fn CnfFormula::new_var(self : CnfFormula) -> Var raise FormulaError {
 pub fn CnfFormula::set_var_count(self : CnfFormula, count : UInt64) -> Unit {
   self.var_count = @cmp.maximum(self.var_count, count)
 }
+
+///|
+pub fn CnfFormula::var_count(self : CnfFormula) -> UInt64 {
+  self.var_count
+}
+
+///|
+pub fn CnfFormula::clause_count(self : CnfFormula) -> Int {
+  self.clause_ranges.length()
+}
+
+///|
+pub fn CnfFormula::clause(self : CnfFormula, index : Int) -> ArrayView[Lit] {
+  let range = self.clause_ranges[index]
+  self.literals[range.0:range.1]
+}
