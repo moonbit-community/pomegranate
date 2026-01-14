@@ -28,6 +28,7 @@ pub struct DimacsParser {
   mut in_comment_or_header : Bool
   mut in_header : Bool
   mut start_of_line : Bool
+  mut terminated : Bool
   mut error : Bool
   mut header_line : @buffer.Buffer
 }
@@ -47,6 +48,7 @@ pub fn DimacsParser::new() -> DimacsParser {
     in_comment_or_header: false,
     in_header: false,
     start_of_line: true,
+    terminated: false,
     error: false,
     header_line: @buffer.new(),
   }
@@ -78,7 +80,13 @@ pub fn DimacsParser::parse_chunk(
   if self.error {
     raise DIMACSParseError::PreviousError
   }
+  if self.terminated {
+    return
+  }
   for byte in chunk {
+    if self.terminated {
+      continue
+    }
     if byte == '\n' {
       self.line_number += 1
     }
@@ -125,6 +133,11 @@ pub fn DimacsParser::parse_chunk(
         self.in_lit = false
         self.partial_lit = 0
         self.start_of_line = byte != b' '
+      }
+      b'%' if self.start_of_line => {
+        // SATLIB-style end-of-file marker; ignore any remaining input.
+        self.terminated = true
+        self.in_comment_or_header = true
       }
       b'c' if self.start_of_line => self.in_comment_or_header = true
       b'p' if self.start_of_line && self.header is None => {

@@ -119,7 +119,7 @@ fn negate_id(lit_id : Int) -> Int {
 ///|
 /// Construct the opposite literal.
 fn negate_lit(lit : Lit) -> Lit {
-  Lit::from_var(lit.to_var(), not(lit.is_negative())) catch {
+  Lit::from_var(lit.to_var(), lit.is_negative()) catch {
     _ => panic()
   }
 }
