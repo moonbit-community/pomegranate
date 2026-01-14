@@ -67,10 +67,7 @@ pub fn CnfFormula::clause(self : CnfFormula, index : Int) -> ArrayView[Lit] {
 
 ///|
 /// Evaluate the formula for a given assignment.
-pub fn CnfFormula::eval(
-  self : CnfFormula,
-  assignment : Array[Bool],
-) -> Bool {
+pub fn CnfFormula::eval(self : CnfFormula, assignment : Array[Bool]) -> Bool {
   for range in self.clause_ranges {
     let mut clause_sat = false
     for lit in self.literals[range.0:range.1] {

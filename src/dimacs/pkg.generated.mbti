@@ -43,6 +43,7 @@ pub struct DimacsParser {
   mut in_comment_or_header : Bool
   mut in_header : Bool
   mut start_of_line : Bool
+  mut terminated : Bool
   mut error : Bool
   mut header_line : @buffer.Buffer
 }

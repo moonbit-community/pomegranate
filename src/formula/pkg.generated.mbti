@@ -18,6 +18,7 @@ pub struct CnfFormula {
 pub fn CnfFormula::add_clause(Self, ArrayView[Lit]) -> Unit
 pub fn CnfFormula::clause(Self, Int) -> ArrayView[Lit]
 pub fn CnfFormula::clause_count(Self) -> Int
+pub fn CnfFormula::eval(Self, Array[Bool]) -> Bool
 pub fn CnfFormula::new_var(Self) -> Var raise FormulaError
 pub fn CnfFormula::set_var_count(Self, UInt64) -> Unit
 pub fn CnfFormula::var_count(Self) -> UInt64
