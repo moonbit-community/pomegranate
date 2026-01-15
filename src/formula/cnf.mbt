@@ -60,9 +60,9 @@ pub fn CnfFormula::clause_count(self : CnfFormula) -> Int {
 }
 
 ///|
-pub fn CnfFormula::clause(self : CnfFormula, index : Int) -> ArrayView[Lit] {
+pub fn CnfFormula::clause(self : CnfFormula, index : Int) -> MutArrayView[Lit] {
   let range = self.clause_ranges[index]
-  self.literals[range.0:range.1]
+  self.literals.mut_view(start=range.0, end=range.1)
 }
 
 ///|
