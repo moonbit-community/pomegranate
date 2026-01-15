@@ -122,10 +122,12 @@ fn Solver::add_clause(self : Solver, lits : MutArrayView[Lit]) -> Int {
 }
 
 ///|
-fn Solver::build_model(self : Solver) -> Array[Bool] {
-  let model = Array::make(self.assignment.length(), false)
+fn Solver::build_model(self : Solver) -> Model {
+  let model = Model::new(self.assignment.length())
   for i, val in self.assignment {
-    model[i] = val == 1
+    if val == 1 {
+      model.set(i, true)
+    }
   }
   model
 }

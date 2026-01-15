@@ -9,7 +9,7 @@ management are intentionally omitted.
 
 The solver operates on a CNF formula and returns either:
 
-- `SolveResult::Sat` with a model (Array[Bool]) indexed by variable id.
+- `SolveResult::Sat` with a model (BitMap) indexed by variable id.
 - `SolveResult::Unsat` when the formula is inconsistent.
 
 Variables are 0-based internally; the DIMACS parser handles 1-based input.
@@ -75,7 +75,7 @@ The main entry point is:
 solve(formula : CnfFormula) -> SolveResult
 ```
 
-The model array is total; any unassigned variable (rare in practice) is mapped
+The model bitmap is total; any unassigned variable (rare in practice) is mapped
 to `false`.
 
 ## Notes on Differences vs EasySAT
