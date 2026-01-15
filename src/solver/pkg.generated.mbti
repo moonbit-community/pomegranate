@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonbit-community/pomegranate/check"
+package "moonbit-community/pomegranate/solver"
 
 import(
   "moonbit-community/pomegranate/formula"
