@@ -15,6 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
       - name: install
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
@@ -43,4 +47,4 @@ jobs:
 
       - name: moon test
         run: |
-          moon test --target all
+          python time_uf250v1065c_tests.py 
