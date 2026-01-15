@@ -67,12 +67,12 @@ pub fn CnfFormula::clause(self : CnfFormula, index : Int) -> MutArrayView[Lit] {
 
 ///|
 /// Evaluate the formula for a given assignment.
-pub fn CnfFormula::eval(self : CnfFormula, assignment : Array[Bool]) -> Bool {
+pub fn CnfFormula::eval(self : CnfFormula, assignment : Model) -> Bool {
   for range in self.clause_ranges {
     let mut clause_sat = false
     for lit in self.literals[range.0:range.1] {
       let idx = lit.index().to_int()
-      let mut value = assignment[idx]
+      let mut value = assignment.get(idx)
       if lit.is_negative() {
         value = not(value)
       }

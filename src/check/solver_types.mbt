@@ -1,7 +1,7 @@
 ///|
 /// CDCL (Conflict-Driven Clause Learning) SAT solver result.
 pub enum SolveResult {
-  Sat(model~ : Array[Bool])
+  Sat(model~ : Model)
   Unsat
 } derive(Show, ToJson)
 

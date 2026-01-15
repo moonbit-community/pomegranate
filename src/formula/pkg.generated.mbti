@@ -18,7 +18,7 @@ pub struct CnfFormula {
 pub fn CnfFormula::add_clause(Self, ArrayView[Lit]) -> Unit
 pub fn CnfFormula::clause(Self, Int) -> MutArrayView[Lit]
 pub fn CnfFormula::clause_count(Self) -> Int
-pub fn CnfFormula::eval(Self, Array[Bool]) -> Bool
+pub fn CnfFormula::eval(Self, Model) -> Bool
 pub fn CnfFormula::new_var(Self) -> Var raise FormulaError
 pub fn CnfFormula::set_var_count(Self, UInt64) -> Unit
 pub fn CnfFormula::var_count(Self) -> UInt64
@@ -37,6 +37,19 @@ pub fn Lit::to_dimacs(Self) -> Int64
 pub fn Lit::to_var(Self) -> Var
 pub impl Show for Lit
 pub impl ToJson for Lit
+
+pub struct Model {
+  length : Int
+  words : Array[UInt64]
+}
+pub fn Model::from_array(Array[Bool]) -> Self
+pub fn Model::get(Self, Int) -> Bool
+pub fn Model::length(Self) -> Int
+pub fn Model::new(Int) -> Self
+pub fn Model::set(Self, Int, Bool) -> Unit
+pub fn Model::to_array(Self) -> Array[Bool]
+pub impl Show for Model
+pub impl ToJson for Model
 
 pub struct Var {
   index : UInt

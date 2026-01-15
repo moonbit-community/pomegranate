@@ -1,2 +1,2 @@
 ///|
-using @formula {type CnfFormula, type Lit, type Var}
+using @formula {type Model, type CnfFormula, type Lit, type Var}

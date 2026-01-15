@@ -12,7 +12,7 @@ pub fn solve(@formula.CnfFormula) -> SolveResult
 
 // Types and methods
 pub enum SolveResult {
-  Sat(model~ : Array[Bool])
+  Sat(model~ : @formula.Model)
   Unsat
 }
 pub impl Show for SolveResult
