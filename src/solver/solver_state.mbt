@@ -2,14 +2,14 @@
 /// Internal solver state modeled after EasySAT.
 priv struct Solver {
   clauses : Array[Clause]
-  watches : Array[Array[Watcher]]
-  assignment : Array[Int]
-  level : Array[Int]
-  reason : Array[Int]
-  mark : Array[Int]
-  local_best : Array[Int]
-  saved : Array[Int]
-  activity : Array[Double]
+  watches : FixedArray[Array[Watcher]]
+  assignment : FixedArray[Int]
+  level : FixedArray[Int]
+  reason : FixedArray[Int]
+  mark : FixedArray[Int]
+  local_best : FixedArray[Int]
+  saved : FixedArray[Int]
+  activity : FixedArray[Double]
   trail : Array[Lit]
   trail_limits : Array[Int]
   mut reduce_map : Array[Int]
@@ -37,16 +37,16 @@ priv struct Solver {
 ///|
 fn Solver::new(formula : CnfFormula) -> Solver {
   let var_count = formula.var_count().to_int()
-  let activity = Array::make(var_count, 0.0)
+  let activity = FixedArray::make(var_count, 0.0)
   let solver = {
     clauses: [],
-    watches: Array::makei(var_count * 2, _ => []),
-    assignment: Array::make(var_count, 0),
-    level: Array::make(var_count, 0),
-    reason: Array::make(var_count, -1),
-    mark: Array::make(var_count + 1, 0),
-    local_best: Array::make(var_count, 0),
-    saved: Array::make(var_count, 0),
+    watches: FixedArray::makei(var_count * 2, _ => []),
+    assignment: FixedArray::make(var_count, 0),
+    level: FixedArray::make(var_count, 0),
+    reason: FixedArray::make(var_count, -1),
+    mark: FixedArray::make(var_count + 1, 0),
+    local_best: FixedArray::make(var_count, 0),
+    saved: FixedArray::make(var_count, 0),
     activity,
     trail: [],
     trail_limits: [],

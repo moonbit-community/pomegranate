@@ -3,11 +3,11 @@
 priv struct VsidsHeap {
   heap : Array[Int]
   pos : Array[Int]
-  activity : Array[Double]
+  activity : FixedArray[Double]
 }
 
 ///|
-fn VsidsHeap::new(activity : Array[Double]) -> VsidsHeap {
+fn VsidsHeap::new(activity : FixedArray[Double]) -> VsidsHeap {
   { heap: [], pos: Array::make(activity.length(), -1), activity }
 }
 
