@@ -28,13 +28,18 @@ fn Solver::decide(self : Solver) -> Bool {
 
 ///|
 fn Solver::backtrack(self : Solver, backtrack_level : Int) -> Unit {
-  if self.trail_limits.length() <= backtrack_level {
+  let current_level = self.trail_limits.length()
+  if backtrack_level >= current_level {
     return
   }
   let target = if backtrack_level == 0 {
-    0
+    if current_level > 0 {
+      self.trail_limits[0]
+    } else {
+      self.trail.length()
+    }
   } else {
-    self.trail_limits[backtrack_level - 1]
+    self.trail_limits[backtrack_level]
   }
   let old_len = self.trail.length()
   for i in target..<old_len {
