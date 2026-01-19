@@ -1,4 +1,5 @@
 ///|
+/// Update the best (deepest) trail snapshot used for phase saving.
 fn Solver::update_local_best(self : Solver) -> Unit {
   if self.trail.length() > self.threshold {
     self.threshold = self.trail.length()
@@ -9,6 +10,9 @@ fn Solver::update_local_best(self : Solver) -> Unit {
 }
 
 ///|
+/// Choose a decision literal using VSIDS and phase saving.
+///
+/// Returns `false` if all variables are assigned (SAT).
 fn Solver::decide(self : Solver) -> Bool {
   let mut next = -1
   while next == -1 || self.assignment[next] != 0 {
@@ -17,6 +21,7 @@ fn Solver::decide(self : Solver) -> Bool {
     }
     next = self.vsids.pop()
   }
+  // Start a new decision level.
   self.trail_limits.push(self.trail.length())
   let level = self.trail_limits.length()
   self.decision_level = level
@@ -27,6 +32,7 @@ fn Solver::decide(self : Solver) -> Bool {
 }
 
 ///|
+/// Undo assignments back to a target decision level.
 fn Solver::backtrack(self : Solver, backtrack_level : Int) -> Unit {
   let current_level = self.trail_limits.length()
   if backtrack_level >= current_level {
@@ -49,6 +55,7 @@ fn Solver::backtrack(self : Solver, backtrack_level : Int) -> Unit {
     self.level[v] = 0
     self.reason[v] = -1
     self.saved[v] = if lit.is_negative() { -1 } else { 1 }
+    // Put variable back into the decision heap if needed.
     if not(self.vsids.in_heap(v)) {
       self.vsids.insert(v)
     }
@@ -60,6 +67,9 @@ fn Solver::backtrack(self : Solver, backtrack_level : Int) -> Unit {
 }
 
 ///|
+/// Restart search while preserving learned clauses.
+///
+/// Also rephases (copies or perturbs saved phases) with a small probability.
 fn Solver::restart(self : Solver) -> Unit {
   self.fast_lbd_sum = 0.0
   self.lbd_queue_size = 0
@@ -82,6 +92,7 @@ fn Solver::restart(self : Solver) -> Unit {
 }
 
 ///|
+/// Periodically adjust rephase limits and soften the "best trail" threshold.
 fn Solver::rephase(self : Solver) -> Unit {
   self.rephases = 0
   self.threshold = self.threshold * 9 / 10
@@ -89,6 +100,10 @@ fn Solver::rephase(self : Solver) -> Unit {
 }
 
 ///|
+/// Reduce the learned clause database.
+///
+/// This keeps all original clauses, and removes a random subset of learned
+/// clauses with LBD >= 5. Watch lists are updated with the new indices.
 fn Solver::reduce(self : Solver) -> Unit {
   self.backtrack(0)
   self.reduces = 0

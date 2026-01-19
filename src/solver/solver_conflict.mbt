@@ -1,4 +1,8 @@
 ///|
+/// Update fast/slow LBD statistics for restart heuristics.
+///
+/// - `fast_lbd_sum`: moving sum over the last 50 LBD values.
+/// - `slow_lbd_sum`: longer-term sum with LBD capped at 50.
 fn Solver::update_lbd_stats(self : Solver, lbd : Int) -> Unit {
   if self.lbd_queue_size < 50 {
     self.lbd_queue_size = self.lbd_queue_size + 1
@@ -23,6 +27,7 @@ fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
   if current_level == 0 {
     return AnalyzeResult::Unsat
   }
+  // `mark` is reused as a visited set for variables via `time_stamp`.
   self.time_stamp = self.time_stamp + 1
   let learned : Array[Lit] = []
   learned.push(self.clauses[conflict_idx].lits[0])
@@ -33,6 +38,7 @@ fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
   let mut conflict = conflict_idx
   while true {
     let clause = self.clauses[conflict].lits
+    // Skip the resolved literal if this is not the first clause.
     let start = match resolve_lit {
       None => 0
       Some(_) => 1
@@ -52,6 +58,7 @@ fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
       }
     }
     let mut pivot = clause[0]
+    // Walk trail backwards to find the next marked literal at current level.
     while true {
       let lit = self.trail[idx]
       idx -= 1
@@ -66,14 +73,17 @@ fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
     resolve_lit = Some(pivot)
     let pivot_var = pivot.index().to_int()
     let next_conflict = self.reason[pivot_var]
+    // Clear mark for the resolved pivot.
     self.mark[pivot_var] = 0
     should_visit -= 1
     if should_visit == 0 {
+      // 1-UIP found: pivot negation becomes asserting literal.
       learned[0] = negate_lit(pivot)
       break
     }
     conflict = next_conflict
   }
+  // Compute LBD: number of unique decision levels in the learned clause.
   self.time_stamp = self.time_stamp + 1
   let mut lbd = 0
   for lit in learned {
@@ -86,6 +96,7 @@ fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
   self.update_lbd_stats(lbd)
   let mut backtrack_level = 0
   if learned.length() > 1 {
+    // Place the highest-level literal (besides learned[0]) at index 1.
     let mut max_idx = 1
     for i in 2..<learned.length() {
       let v = learned[i].index().to_int()
@@ -99,6 +110,7 @@ fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
     learned[max_idx] = tmp
     backtrack_level = self.level[learned[1].index().to_int()]
   }
+  // Bump variables involved near the backtrack level.
   for var_id in bump {
     if self.level[var_id] >= backtrack_level - 1 {
       self.bump_var(var_id, 1.0)

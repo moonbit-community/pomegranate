@@ -1,5 +1,7 @@
 ///|
 /// Encode a literal into a dense id (var * 2 + sign).
+///
+/// This id is used as the index into watch lists.
 fn lit_id(lit : Lit) -> Int {
   let base = lit.index().to_int() * 2
   if lit.is_negative() {
