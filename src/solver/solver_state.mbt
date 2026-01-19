@@ -22,7 +22,7 @@ priv struct Solver {
   trail : Array[Lit]
   trail_limits : Array[Int]
   mut reduce_map : Array[Int]
-  lbd_queue : Array[Int]
+  lbd_queue : FixedArray[Int]
   vsids : VsidsHeap
   rand : @random.Rand
   mut origin_clauses : Int
@@ -66,7 +66,7 @@ fn Solver::new(formula : CnfFormula) -> Solver {
     trail: [],
     trail_limits: [],
     reduce_map: [],
-    lbd_queue: Array::make(50, 0),
+    lbd_queue: FixedArray::make(50, 0),
     vsids: VsidsHeap::new(activity),
     rand: @random.Rand::new(),
     origin_clauses: 0,
