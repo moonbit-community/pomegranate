@@ -5,7 +5,11 @@
 /// propagate -> (conflict? analyze & backtrack : decide) with periodic
 /// restart/rephase/reduction heuristics.
 pub fn solve(formula : CnfFormula) -> SolveResult {
-  let solver = Solver::new(formula)
+  let preprocessed = preprocess_bve(formula)
+  let solver = Solver::new(
+    preprocessed.formula,
+    active_vars=preprocessed.active_vars,
+  )
   if solver.has_conflict {
     return Unsat
   }
@@ -50,7 +54,8 @@ pub fn solve(formula : CnfFormula) -> SolveResult {
       solver.rephase()
     } else if not(solver.decide()) {
       // No decision variables left: model is complete.
-      return Sat(model=solver.build_model())
+      let model = solver.build_model()
+      return Sat(model=extend_model(model, preprocessed.eliminations))
     }
   }
   Unsat

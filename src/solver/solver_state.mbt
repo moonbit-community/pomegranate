@@ -47,10 +47,10 @@ priv struct Solver {
 /// Build a solver from a CNF formula.
 ///
 /// The constructor:
-/// - Seeds the VSIDS heap with all variables.
+/// - Seeds the VSIDS heap with all variables (or the active mask if provided).
 /// - Adds all non-unit clauses to the watch lists.
 /// - Enqueues unit clauses at level 0 and detects early conflicts.
-fn Solver::new(formula : CnfFormula) -> Solver {
+fn Solver::new(formula : CnfFormula, active_vars? : FixedArray[Bool]) -> Solver {
   let var_count = formula.var_count().to_int()
   let activity = FixedArray::make(var_count, 0.0)
   let solver = {
@@ -86,9 +86,15 @@ fn Solver::new(formula : CnfFormula) -> Solver {
     var_inc: 1.0,
     has_conflict: false,
   }
-  // All variables start in the decision heap with zero activity.
+  // Seed the decision heap with active variables (or all if no mask supplied).
   for v in 0..<var_count {
-    solver.vsids.insert(v)
+    let insert = match active_vars {
+      None => true
+      Some(mask) => mask[v]
+    }
+    if insert {
+      solver.vsids.insert(v)
+    }
   }
   let clause_count = formula.clause_count()
   for i in 0..<clause_count {
