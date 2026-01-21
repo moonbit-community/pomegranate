@@ -2,9 +2,9 @@
 package "moonbit-community/pomegranate"
 
 // Values
-pub fn check_sat(String) -> Unit raise
+pub fn check_sat(String, print_metrics? : Bool) -> Unit raise
 
-pub fn check_unsat(String) -> Unit raise
+pub fn check_unsat(String, print_metrics? : Bool) -> Unit raise
 
 // Errors
 

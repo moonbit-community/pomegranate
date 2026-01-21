@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "moonbit-community/pomegranate/solver"
 
-import(
-  "moonbit-community/pomegranate/formula"
-)
+import {
+  "moonbit-community/pomegranate/formula",
+}
 
 // Values
 pub fn solve(@formula.CnfFormula) -> SolveResult
@@ -11,12 +11,69 @@ pub fn solve(@formula.CnfFormula) -> SolveResult
 // Errors
 
 // Types and methods
-pub enum SolveResult {
-  Sat(model~ : @formula.Model)
-  Unsat
+pub struct SolveResult {
+  metrics : SolverMetrics
+  model : @formula.Model?
 }
 pub impl Show for SolveResult
 pub impl ToJson for SolveResult
+
+pub struct SolverMetrics {
+  decisions : Int
+  decision_level_sum : Int
+  decision_level_max : Int
+  decision_phase_saved : Int
+  decision_phase_best : Int
+  decision_phase_default : Int
+  decision_random : Int
+  propagations : Int
+  conflicts : Int
+  conflicts_init : Int
+  conflicts_original : Int
+  conflicts_learned : Int
+  analyze_calls : Int
+  restarts : Int
+  restart_ready : Int
+  restart_phase_local_best : Int
+  restart_phase_invert_best : Int
+  restart_phase_random : Int
+  restart_phase_keep : Int
+  rephases : Int
+  rephase_phase_local_best : Int
+  rephase_phase_invert_best : Int
+  rephase_phase_random : Int
+  rephase_phase_default : Int
+  reductions : Array[(Int, Int)]
+  reductions_removed : Int
+  learned_clauses : Int
+  learned_unit_clauses : Int
+  learned_binary_clauses : Int
+  learned_ternary_clauses : Int
+  learned_clause_len_sum : Int
+  learned_clause_len_min : Int
+  learned_clause_len_max : Int
+  learned_lbd_sum : Int
+  learned_lbd_min : Int
+  learned_lbd_max : Int
+  assignments : Int
+  assignments_level0 : Int
+  assignments_nonzero : Int
+  max_trail : Int
+  backtrack_calls : Int
+  backtrack_lits_removed : Int
+  backtrack_lits_removed_max : Int
+  propagate_calls : Int
+  watcher_scans : Int
+  blocker_hits : Int
+  watch_replacements : Int
+  vsids_bumps : Int
+  vsids_bumps_strong : Int
+  vsids_rescales : Int
+  origin_clauses : Int
+  final_clauses : Int
+}
+pub impl Show for SolverMetrics
+pub impl ToJson for SolverMetrics
 
 // Type aliases
 
