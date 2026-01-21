@@ -124,3 +124,57 @@ fn VsidsHeap::pop(self : VsidsHeap) -> Int {
   }
   x
 }
+
+///|
+/// Pop a variable using noisy sampling (best among random samples).
+fn VsidsHeap::pop_noisy(
+  self : VsidsHeap,
+  rand : @random.Rand,
+  samples : Int,
+) -> Int {
+  let len = self.heap.length()
+  if len == 0 {
+    panic()
+  }
+  let count = if samples < 1 {
+    1
+  } else if samples > len {
+    len
+  } else {
+    samples
+  }
+  let mut best_idx = rand.int(limit=len)
+  let mut best_var = self.heap[best_idx]
+  for _ in 1..<count {
+    let idx = rand.int(limit=len)
+    let v = self.heap[idx]
+    if self.higher(v, best_var) {
+      best_idx = idx
+      best_var = v
+    }
+  }
+  let x = self.heap[best_idx]
+  let last = match self.heap.pop() {
+    Some(v) => v
+    None => panic()
+  }
+  if self.heap.length() == 0 {
+    self.pos[x] = -1
+    return x
+  }
+  if best_idx == self.heap.length() {
+    // Removed the last element.
+    self.pos[x] = -1
+    return x
+  }
+  self.heap[best_idx] = last
+  self.pos[last] = best_idx
+  self.pos[x] = -1
+  if best_idx > 0 &&
+    self.higher(self.heap[best_idx], self.heap[(best_idx - 1) / 2]) {
+    self.up(best_idx)
+  } else {
+    self.down(best_idx)
+  }
+  x
+}

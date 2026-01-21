@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "moonbit-community/pomegranate/dimacs"
 
-import(
-  "moonbit-community/pomegranate/formula"
-  "moonbitlang/core/buffer"
-  "moonbitlang/core/encoding/utf8"
-)
+import {
+  "moonbit-community/pomegranate/formula",
+  "moonbitlang/core/buffer",
+  "moonbitlang/core/encoding/utf8",
+}
 
 // Values
 
