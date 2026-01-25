@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbit-community/pomegranate/dpll"
+
+import {
+  "moonbit-community/pomegranate/formula",
+}
+
+// Values
+pub fn solve(@formula.CnfFormula) -> @formula.Model?
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
