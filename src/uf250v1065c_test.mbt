@@ -454,11 +454,6 @@ test "uf250-081.cnf" {
 }
 
 ///|
-test "ai" {
-  check_sat("./dimacs/uf250v1065c/ai")
-}
-
-///|
 test "uf250-013.cnf" {
   check_sat("./dimacs/uf250v1065c/uf250-013.cnf")
 }
