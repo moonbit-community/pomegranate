@@ -251,7 +251,7 @@ fn DimacsParser::finish_literal(
 fn DimacsParser::parse_header_line(
   self : DimacsParser,
 ) -> Unit raise DIMACSParseError {
-  let header_string = @encoding/utf8.decode(self.header_line.to_bytes()) catch {
+  let header_string = @utf8.decode(self.header_line.to_bytes()) catch {
     err => raise DecodeError(err)
   }
   let parts_iter = if header_string is ['p', ' ', .. rest] {

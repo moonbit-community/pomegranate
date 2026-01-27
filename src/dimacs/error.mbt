@@ -8,7 +8,7 @@ pub suberror DIMACSParseError {
   VarCount(var_count~ : UInt64, header_var_count~ : UInt64)
   ClauseCount(clause_count~ : UInt64, header_clause_count~ : UInt64)
   FormulaError(FormulaError)
-  DecodeError(@encoding/utf8.Malformed)
+  DecodeError(@utf8.Malformed)
   PreviousError
 }
 
