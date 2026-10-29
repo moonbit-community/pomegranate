@@ -1,10 +1,10 @@
 ///|
 /// Possible errors while parsing a DIMACS CNF formula.
 pub suberror DIMACSParseError {
-  UnexpectedInputCharacter(line~ : Int, unexpected~ : Char)
-  LiteralTooLarge(line~ : Int, index~ : UInt64, final_digit~ : UInt64)
-  InvalidHeader(line~ : Int, header~ : StringView)
-  UnterminatedClause(line~ : Int)
+  UnexpectedInputCharacter(line~ : Int32, unexpected~ : Char)
+  LiteralTooLarge(line~ : Int32, index~ : UInt64, final_digit~ : UInt64)
+  InvalidHeader(line~ : Int32, header~ : StringView)
+  UnterminatedClause(line~ : Int32)
   VarCount(var_count~ : UInt64, header_var_count~ : UInt64)
   ClauseCount(clause_count~ : UInt64, header_clause_count~ : UInt64)
   FormulaError(FormulaError)
@@ -13,7 +13,7 @@ pub suberror DIMACSParseError {
 }
 
 ///|
-pub impl Show for DIMACSParseError with output(self, logger) {
+pub impl Show for DIMACSParseError with fn output(self, logger) {
   match self {
     UnterminatedClause(line~) =>
       logger.write_string("line \{line}: Unterminated clause")
@@ -43,6 +43,6 @@ pub impl Show for DIMACSParseError with output(self, logger) {
 }
 
 ///|
-pub impl ToJson for DIMACSParseError with to_json(self) {
+pub impl ToJson for DIMACSParseError with fn to_json(self) {
   Json::string(self.to_string())
 }

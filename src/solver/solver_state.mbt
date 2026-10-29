@@ -14,86 +14,86 @@
 priv struct Solver {
   clauses : Array[Clause]
   watches : FixedArray[Array[Watcher]]
-  assignment : FixedArray[Int]
-  level : FixedArray[Int]
-  reason : FixedArray[Int]
-  mark : FixedArray[Int]
-  minimize_mark : FixedArray[Int]
-  local_best : FixedArray[Int]
-  phase_default : FixedArray[Int]
-  saved : FixedArray[Int]
+  assignment : FixedArray[Int32]
+  level : FixedArray[Int32]
+  reason : FixedArray[Int32]
+  mark : FixedArray[Int32]
+  minimize_mark : FixedArray[Int32]
+  local_best : FixedArray[Int32]
+  phase_default : FixedArray[Int32]
+  saved : FixedArray[Int32]
   activity : FixedArray[Double]
   trail : Array[Lit]
-  trail_limits : Array[Int]
-  mut reduce_map : Array[Int]
+  trail_limits : Array[Int32]
+  mut reduce_map : Array[Int32]
   vsids : VsidsHeap
   rand : @random.Rand
-  mut origin_clauses : Int
-  mut conflicts : Int
-  mut conflicts_total : Int
-  mut conflicts_init : Int
-  mut conflicts_original : Int
-  mut conflicts_learned : Int
-  mut restart_index : Int
-  mut restart_limit : Int
-  mut rephases : Int
-  mut rephase_limit : Int
-  mut reduce_limit : Int
-  mut threshold : Int
-  mut propagated : Int
-  mut decision_level : Int
-  mut decision_level_sum : Int
-  mut decision_level_max : Int
-  mut time_stamp : Int
-  mut minimize_stamp : Int
-  mut lbd_queue_size : Int
+  mut origin_clauses : Int32
+  mut conflicts : Int32
+  mut conflicts_total : Int32
+  mut conflicts_init : Int32
+  mut conflicts_original : Int32
+  mut conflicts_learned : Int32
+  mut restart_index : Int32
+  mut restart_limit : Int32
+  mut rephases : Int32
+  mut rephase_limit : Int32
+  mut reduce_limit : Int32
+  mut threshold : Int32
+  mut propagated : Int32
+  mut decision_level : Int32
+  mut decision_level_sum : Int32
+  mut decision_level_max : Int32
+  mut time_stamp : Int32
+  mut minimize_stamp : Int32
+  mut lbd_queue_size : Int32
   mut fast_lbd_sum : Double
   mut slow_lbd_sum : Double
   mut var_inc : Double
   mut has_conflict : Bool
-  mut assignments_total : Int
-  mut assignments_level0_total : Int
-  mut assignments_nonzero_total : Int
-  mut decisions_total : Int
-  mut decision_phase_saved_total : Int
-  mut decision_phase_best_total : Int
-  mut decision_phase_default_total : Int
-  mut decision_random_total : Int
-  mut restarts_total : Int
-  mut restart_ready_total : Int
-  mut restart_phase_local_best_total : Int
-  mut restart_phase_invert_best_total : Int
-  mut restart_phase_random_total : Int
-  mut restart_phase_keep_total : Int
-  mut rephases_total : Int
-  mut rephase_phase_local_best_total : Int
-  mut rephase_phase_invert_best_total : Int
-  mut rephase_phase_random_total : Int
-  mut rephase_phase_default_total : Int
-  reductions : Array[(Int, Int)]
-  mut reductions_removed_total : Int
-  mut learned_clauses_total : Int
-  mut learned_unit_total : Int
-  mut learned_binary_total : Int
-  mut learned_ternary_total : Int
-  mut learned_len_sum : Int
-  mut learned_len_min : Int
-  mut learned_len_max : Int
-  mut learned_lbd_sum : Int
-  mut learned_lbd_min : Int
-  mut learned_lbd_max : Int
-  mut max_trail : Int
-  mut backtrack_calls_total : Int
-  mut backtrack_lits_removed_total : Int
-  mut backtrack_lits_removed_max : Int
-  mut propagate_calls : Int
-  mut watcher_scans : Int
-  mut blocker_hits : Int
-  mut watch_replacements : Int
-  mut vsids_bumps_total : Int
-  mut vsids_bumps_strong_total : Int
-  mut vsids_rescales_total : Int
-  mut analyze_calls : Int
+  mut assignments_total : Int32
+  mut assignments_level0_total : Int32
+  mut assignments_nonzero_total : Int32
+  mut decisions_total : Int32
+  mut decision_phase_saved_total : Int32
+  mut decision_phase_best_total : Int32
+  mut decision_phase_default_total : Int32
+  mut decision_random_total : Int32
+  mut restarts_total : Int32
+  mut restart_ready_total : Int32
+  mut restart_phase_local_best_total : Int32
+  mut restart_phase_invert_best_total : Int32
+  mut restart_phase_random_total : Int32
+  mut restart_phase_keep_total : Int32
+  mut rephases_total : Int32
+  mut rephase_phase_local_best_total : Int32
+  mut rephase_phase_invert_best_total : Int32
+  mut rephase_phase_random_total : Int32
+  mut rephase_phase_default_total : Int32
+  reductions : Array[(Int32, Int32)]
+  mut reductions_removed_total : Int32
+  mut learned_clauses_total : Int32
+  mut learned_unit_total : Int32
+  mut learned_binary_total : Int32
+  mut learned_ternary_total : Int32
+  mut learned_len_sum : Int32
+  mut learned_len_min : Int32
+  mut learned_len_max : Int32
+  mut learned_lbd_sum : Int32
+  mut learned_lbd_min : Int32
+  mut learned_lbd_max : Int32
+  mut max_trail : Int32
+  mut backtrack_calls_total : Int32
+  mut backtrack_lits_removed_total : Int32
+  mut backtrack_lits_removed_max : Int32
+  mut propagate_calls : Int32
+  mut watcher_scans : Int32
+  mut blocker_hits : Int32
+  mut watch_replacements : Int32
+  mut vsids_bumps_total : Int32
+  mut vsids_bumps_strong_total : Int32
+  mut vsids_rescales_total : Int32
+  mut analyze_calls : Int32
 }
 
 ///|
@@ -153,7 +153,7 @@ fn Solver::new(formula : CnfFormula) -> Solver {
     trail_limits: [],
     reduce_map: [],
     vsids: VsidsHeap::new(activity),
-    rand: @random.Rand::new(),
+    rand: @random.Rand(),
     origin_clauses: 0,
     conflicts: 0,
     conflicts_total: 0,
@@ -255,7 +255,7 @@ fn Solver::new(formula : CnfFormula) -> Solver {
       }
       if val == 0 {
         // Level-0 unit propagation: conflict here means UNSAT immediately.
-        if not(solver.assign(lit, 0, -1)) {
+        if !solver.assign(lit, 0, -1) {
           solver.has_conflict = true
           solver.conflicts_total += 1
           solver.conflicts_init += 1
@@ -267,7 +267,6 @@ fn Solver::new(formula : CnfFormula) -> Solver {
     }
     // Normal clause: add to clause DB and initialize two watched literals.
     let _ = solver.add_clause(clause)
-
   }
   for i in 0..<var_count {
     if neg_weight[i] > pos_weight[i] {
@@ -297,13 +296,13 @@ fn Solver::new(formula : CnfFormula) -> Solver {
 /// The watch lists are keyed by the negated watched literal. This way, when
 /// a literal becomes true we scan the watch list at `lit_id(lit)`, which is
 /// exactly the watch list for its negation.
-fn Solver::add_clause(self : Solver, lits : MutArrayView[Lit]) -> Int {
+fn Solver::add_clause(self : Solver, lits : MutArrayView[Lit]) -> Int32 {
   let idx = self.clauses.length()
-  self.clauses.push({ lbd: 0, used: 0, lits })
+  self.clauses.push({ lbd: 0, used: 0, lits, })
   let len = lits.length()
   let lit0 = lits[0]
   let lit1 = if len > 1 { lits[1] } else { lits[0] }
-  self.watches[negate_id(lit_id(lit0))].push({ clause_idx: idx, blocker: lit1 })
+  self.watches[negate_id(lit_id(lit0))].push({ clause_idx: idx, blocker: lit1, })
   if len > 1 {
     self.watches[negate_id(lit_id(lit1))].push({
       clause_idx: idx,

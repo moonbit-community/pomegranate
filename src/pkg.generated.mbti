@@ -13,4 +13,3 @@ pub fn check_unsat(String, print_metrics? : Bool) -> Unit raise
 // Type aliases
 
 // Traits
-

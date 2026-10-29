@@ -2,21 +2,21 @@
 pub struct CnfFormula {
   mut var_count : UInt64
   literals : Array[Lit]
-  clause_ranges : Array[(Int, Int)]
+  clause_ranges : Array[(Int32, Int32)]
 }
 
 ///|
-pub impl Default for CnfFormula with default() {
-  CnfFormula::{ var_count: 0, literals: [], clause_ranges: [] }
+pub impl Default for CnfFormula with fn default() {
+  CnfFormula::{ var_count: 0, literals: [], clause_ranges: [], }
 }
 
 ///|
-pub impl ToJson for CnfFormula with to_json(self) {
+pub impl ToJson for CnfFormula with fn to_json(self) {
   let arr = []
   for range in self.clause_ranges {
     arr.push(self.literals[range.0:range.1])
   }
-  arr.to_json()
+  Json(arr)
 }
 
 ///|
@@ -55,12 +55,15 @@ pub fn CnfFormula::var_count(self : CnfFormula) -> UInt64 {
 }
 
 ///|
-pub fn CnfFormula::clause_count(self : CnfFormula) -> Int {
+pub fn CnfFormula::clause_count(self : CnfFormula) -> Int32 {
   self.clause_ranges.length()
 }
 
 ///|
-pub fn CnfFormula::clause(self : CnfFormula, index : Int) -> MutArrayView[Lit] {
+pub fn CnfFormula::clause(
+  self : CnfFormula,
+  index : Int32,
+) -> MutArrayView[Lit] {
   let range = self.clause_ranges[index]
   self.literals.mut_view(start=range.0, end=range.1)
 }
@@ -74,14 +77,14 @@ pub fn CnfFormula::eval(self : CnfFormula, assignment : Model) -> Bool {
       let idx = lit.index().to_int()
       let mut value = assignment.get(idx)
       if lit.is_negative() {
-        value = not(value)
+        value = !value
       }
       if value {
         clause_sat = true
         break
       }
     }
-    if not(clause_sat) {
+    if !clause_sat {
       return false
     }
   }

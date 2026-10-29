@@ -9,7 +9,7 @@ pub fn DimacsHeader::new(
   var_count : UInt64,
   clause_count : UInt64,
 ) -> DimacsHeader {
-  DimacsHeader::{ var_count, clause_count }
+  DimacsHeader::{ var_count, clause_count, }
 }
 
 ///|
@@ -20,7 +20,7 @@ pub struct DimacsParser {
   formula : CnfFormula
   partial_clause : Array[Lit]
   mut header : DimacsHeader?
-  mut line_number : Int
+  mut line_number : Int32
   mut clause_count : UInt64
   mut partial_lit : UInt64
   mut negate_next_lit : Bool
@@ -50,7 +50,7 @@ pub fn DimacsParser::new() -> DimacsParser {
     start_of_line: true,
     terminated: false,
     error: false,
-    header_line: @buffer.new(),
+    header_line: Buffer(),
   }
 }
 
@@ -87,11 +87,11 @@ pub fn DimacsParser::parse_chunk(
     if self.terminated {
       continue
     }
-    if byte == '\n' {
+    if byte == b'\n' {
       self.line_number += 1
     }
     match byte {
-      '\n' | '\r' if self.in_comment_or_header => {
+      b'\n' | b'\r' if self.in_comment_or_header => {
         if self.in_header {
           self.in_header = false
           self.parse_header_line()
@@ -103,7 +103,7 @@ pub fn DimacsParser::parse_chunk(
         if self.in_header {
           self.header_line.write_byte(byte)
         }
-      '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => {
+      b'0' | b'1' | b'2' | b'3' | b'4' | b'5' | b'6' | b'7' | b'8' | b'9' => {
         self.in_lit = true
         let digit = (byte - b'0').to_uint64()
         let can_overflow = Var::max_count() / 10
@@ -123,11 +123,11 @@ pub fn DimacsParser::parse_chunk(
         self.partial_lit = self.partial_lit * 10 + digit
         self.start_of_line = false
       }
-      b'-' if not(self.negate_next_lit) && not(self.in_lit) => {
+      b'-' if !self.negate_next_lit && !self.in_lit => {
         self.negate_next_lit = true
         self.start_of_line = false
       }
-      b' ' | b'\n' | b'\r' if not(self.negate_next_lit) || self.in_lit => {
+      b' ' | b'\n' | b'\r' if !self.negate_next_lit || self.in_lit => {
         self.finish_literal()
         self.negate_next_lit = false
         self.in_lit = false
@@ -166,7 +166,7 @@ pub fn DimacsParser::eof(self : DimacsParser) -> Unit raise DIMACSParseError {
     self.parse_header_line()
   }
   self.finish_literal()
-  if not(self.partial_clause.is_empty()) {
+  if !self.partial_clause.is_empty() {
     raise DIMACSParseError::UnterminatedClause(line=self.line_number)
   }
 }
@@ -235,7 +235,7 @@ fn DimacsParser::finish_literal(
           raise DIMACSParseError::FormulaError(err)
         }
       }
-      let lit = Lit::from_var(variable, not(self.negate_next_lit)) catch {
+      let lit = Lit::from_var(variable, !self.negate_next_lit) catch {
         err => {
           self.error = true
           raise DIMACSParseError::FormulaError(err)
@@ -273,7 +273,7 @@ fn DimacsParser::parse_header_line(
   // Parse variable count
   let var_count = match parts_iter.next() {
     Some(s) =>
-      @strconv.parse_uint64(s) catch {
+      @string.parse_uint64(s) catch {
         _ => {
           self.invalid_header(header_string)
           return
@@ -296,7 +296,7 @@ fn DimacsParser::parse_header_line(
   // Parse clause count
   let clause_count = match parts_iter.next() {
     Some(s) =>
-      @strconv.parse_uint64(s) catch {
+      @string.parse_uint64(s) catch {
         _ => {
           self.invalid_header(header_string)
           return
@@ -315,7 +315,7 @@ fn DimacsParser::parse_header_line(
   }
   self.header = Some(DimacsHeader::new(var_count, clause_count))
   self.formula.set_var_count(var_count)
-  self.header_line = @buffer.new()
+  self.header_line = Buffer()
 }
 
 ///|

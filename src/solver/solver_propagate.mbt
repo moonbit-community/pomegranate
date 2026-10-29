@@ -5,7 +5,7 @@
 /// - `1` if the literal is true,
 /// - `-1` if the literal is false,
 /// - `0` if the variable is unassigned.
-fn Solver::lit_value(self : Solver, lit : Lit) -> Int {
+fn Solver::lit_value(self : Solver, lit : Lit) -> Int32 {
   let idx = lit.index().to_int()
   let val = self.assignment[idx]
   if val == 0 {
@@ -21,7 +21,12 @@ fn Solver::lit_value(self : Solver, lit : Lit) -> Int {
 /// Assign a literal at a given decision level with an optional reason clause.
 ///
 /// Returns `false` if the assignment contradicts an existing assignment.
-fn Solver::assign(self : Solver, lit : Lit, level : Int, reason : Int) -> Bool {
+fn Solver::assign(
+  self : Solver,
+  lit : Lit,
+  level : Int32,
+  reason : Int32,
+) -> Bool {
   let idx = lit.index().to_int()
   let val = if lit.is_negative() { -1 } else { 1 }
   let current = self.assignment[idx]
@@ -52,7 +57,7 @@ fn Solver::assign(self : Solver, lit : Lit, level : Int, reason : Int) -> Bool {
 
 ///|
 /// Increase a variable's VSIDS activity and reheapify if needed.
-fn Solver::bump_var(self : Solver, var_id : Int, mult : Double) -> Unit {
+fn Solver::bump_var(self : Solver, var_id : Int32, mult : Double) -> Unit {
   self.vsids_bumps_total += 1
   if mult >= 1.0 {
     self.vsids_bumps_strong_total += 1
@@ -75,7 +80,7 @@ fn Solver::bump_var(self : Solver, var_id : Int, mult : Double) -> Unit {
 ///|
 /// Boolean constraint propagation using two-watched literals.
 /// Returns a clause index on conflict or -1 on success.
-fn Solver::propagate(self : Solver) -> Int {
+fn Solver::propagate(self : Solver) -> Int32 {
   self.propagate_calls += 1
   // Walk the trail from `propagated` and process watch lists.
   while self.propagated < self.trail.length() {
@@ -107,7 +112,7 @@ fn Solver::propagate(self : Solver) -> Int {
         clause[1] = tmp
       }
       let blocker = clause[0]
-      let new_watcher = { clause_idx: cref, blocker }
+      let new_watcher = { clause_idx: cref, blocker, }
       i += 1
       if self.lit_value(blocker) == 1 {
         // Clause already satisfied by the other watched literal.
@@ -133,7 +138,7 @@ fn Solver::propagate(self : Solver) -> Int {
         } else {
           // Unit clause: propagate the remaining watched literal.
           let level = self.level[p.index().to_int()]
-          if not(self.assign(blocker, level, cref)) {
+          if !self.assign(blocker, level, cref) {
             ws.truncate(j)
             self.watches[key] = ws
             return cref
@@ -175,7 +180,7 @@ fn Solver::propagate(self : Solver) -> Int {
         } else {
           // Unit clause: propagate the remaining watched literal.
           let level = self.level[p.index().to_int()]
-          if not(self.assign(blocker, level, cref)) {
+          if !self.assign(blocker, level, cref) {
             ws.truncate(j)
             self.watches[key] = ws
             return cref

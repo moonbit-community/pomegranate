@@ -72,58 +72,58 @@
 /// - `final_clauses`: number of clauses remaining in the database at the end
 ///   of the run (original + retained learned).
 pub struct SolverMetrics {
-  decisions : Int
-  decision_level_sum : Int
-  decision_level_max : Int
-  decision_phase_saved : Int
-  decision_phase_best : Int
-  decision_phase_default : Int
-  decision_random : Int
-  propagations : Int
-  conflicts : Int
-  conflicts_init : Int
-  conflicts_original : Int
-  conflicts_learned : Int
-  analyze_calls : Int
-  restarts : Int
-  restart_ready : Int
-  restart_phase_local_best : Int
-  restart_phase_invert_best : Int
-  restart_phase_random : Int
-  restart_phase_keep : Int
-  rephases : Int
-  rephase_phase_local_best : Int
-  rephase_phase_invert_best : Int
-  rephase_phase_random : Int
-  rephase_phase_default : Int
-  reductions : Array[(Int, Int)]
-  reductions_removed : Int
-  learned_clauses : Int
-  learned_unit_clauses : Int
-  learned_binary_clauses : Int
-  learned_ternary_clauses : Int
-  learned_clause_len_sum : Int
-  learned_clause_len_min : Int
-  learned_clause_len_max : Int
-  learned_lbd_sum : Int
-  learned_lbd_min : Int
-  learned_lbd_max : Int
-  assignments : Int
-  assignments_level0 : Int
-  assignments_nonzero : Int
-  max_trail : Int
-  backtrack_calls : Int
-  backtrack_lits_removed : Int
-  backtrack_lits_removed_max : Int
-  propagate_calls : Int
-  watcher_scans : Int
-  blocker_hits : Int
-  watch_replacements : Int
-  vsids_bumps : Int
-  vsids_bumps_strong : Int
-  vsids_rescales : Int
-  origin_clauses : Int
-  final_clauses : Int
+  decisions : Int32
+  decision_level_sum : Int32
+  decision_level_max : Int32
+  decision_phase_saved : Int32
+  decision_phase_best : Int32
+  decision_phase_default : Int32
+  decision_random : Int32
+  propagations : Int32
+  conflicts : Int32
+  conflicts_init : Int32
+  conflicts_original : Int32
+  conflicts_learned : Int32
+  analyze_calls : Int32
+  restarts : Int32
+  restart_ready : Int32
+  restart_phase_local_best : Int32
+  restart_phase_invert_best : Int32
+  restart_phase_random : Int32
+  restart_phase_keep : Int32
+  rephases : Int32
+  rephase_phase_local_best : Int32
+  rephase_phase_invert_best : Int32
+  rephase_phase_random : Int32
+  rephase_phase_default : Int32
+  reductions : Array[(Int32, Int32)]
+  reductions_removed : Int32
+  learned_clauses : Int32
+  learned_unit_clauses : Int32
+  learned_binary_clauses : Int32
+  learned_ternary_clauses : Int32
+  learned_clause_len_sum : Int32
+  learned_clause_len_min : Int32
+  learned_clause_len_max : Int32
+  learned_lbd_sum : Int32
+  learned_lbd_min : Int32
+  learned_lbd_max : Int32
+  assignments : Int32
+  assignments_level0 : Int32
+  assignments_nonzero : Int32
+  max_trail : Int32
+  backtrack_calls : Int32
+  backtrack_lits_removed : Int32
+  backtrack_lits_removed_max : Int32
+  propagate_calls : Int32
+  watcher_scans : Int32
+  blocker_hits : Int32
+  watch_replacements : Int32
+  vsids_bumps : Int32
+  vsids_bumps_strong : Int32
+  vsids_rescales : Int32
+  origin_clauses : Int32
+  final_clauses : Int32
 } derive(Show, ToJson)
 
 ///|
@@ -139,8 +139,8 @@ pub struct SolveResult {
 /// `lbd` is the Literal Block Distance for learned clauses (0 for originals).
 /// `used` tracks how often a learned clause is used as a reason.
 priv struct Clause {
-  mut lbd : Int
-  mut used : Int
+  mut lbd : Int32
+  mut used : Int32
   lits : MutArrayView[Lit]
 }
 
@@ -150,7 +150,7 @@ priv struct Clause {
 /// `blocker` is another watched literal used as a quick satisfied test
 /// (if blocker is true, the clause is already satisfied).
 priv struct Watcher {
-  mut clause_idx : Int
+  mut clause_idx : Int32
   blocker : Lit
 }
 
@@ -160,5 +160,5 @@ priv struct Watcher {
 /// `Learned` holds the learned clause, the backtrack level, and the LBD score.
 priv enum AnalyzeResult {
   Unsat
-  Learned(learned~ : Array[Lit], backtrack_level~ : Int, lbd~ : Int)
+  Learned(learned~ : Array[Lit], backtrack_level~ : Int32, lbd~ : Int32)
 }

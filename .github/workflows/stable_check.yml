@@ -27,7 +27,6 @@ jobs:
       - name: install module dependencies
         run: |
           moon update
-          moon install
 
       - name: moon check
         run: moon check
@@ -43,4 +42,4 @@ jobs:
 
       - name: moon test
         run: |
-          moon test --target native
+          moon test --target native --release --jobs 1

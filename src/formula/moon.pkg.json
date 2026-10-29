@@ -1,6 +1,0 @@
-{
-    "import": [
-        "moonbitlang/core/uint",
-        "moonbitlang/core/cmp"
-    ]
-}
