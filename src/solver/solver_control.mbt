@@ -11,7 +11,7 @@ fn Solver::update_local_best(self : Solver) -> Unit {
 
 ///|
 /// Luby restart sequence helper.
-fn luby(idx : Int) -> Int {
+fn luby(idx : Int32) -> Int32 {
   let mut index = idx
   let mut k = 1
   while true {
@@ -32,7 +32,7 @@ fn luby(idx : Int) -> Int {
 
 ///|
 /// Base conflict budget for restarts, scaled by problem size.
-fn Solver::restart_base(self : Solver) -> Int {
+fn Solver::restart_base(self : Solver) -> Int32 {
   let vars = self.assignment.length()
   let clauses = if self.origin_clauses == 0 {
     self.clauses.length()
@@ -52,7 +52,7 @@ fn Solver::restart_base(self : Solver) -> Int {
 
 ///|
 /// Base conflict budget for rephasing, scaled by problem size.
-fn Solver::rephase_base(self : Solver) -> Int {
+fn Solver::rephase_base(self : Solver) -> Int32 {
   let vars = self.assignment.length()
   let clauses = if self.origin_clauses == 0 {
     self.clauses.length()
@@ -141,8 +141,8 @@ fn Solver::decide(self : Solver) -> Bool {
   } else {
     self.phase_default[next]
   }
-  let used_best = not(use_saved) && best != 0
-  if not(use_saved) &&
+  let used_best = !use_saved && best != 0
+  if !use_saved &&
     self.rand.int(limit=100) < PHASE_FLIP_PCT &&
     self.activity[next] <= self.var_inc * PHASE_FLIP_ACTIVITY_MULT {
     polarity = -polarity
@@ -171,7 +171,7 @@ fn Solver::decide(self : Solver) -> Bool {
 
 ///|
 /// Undo assignments back to a target decision level.
-fn Solver::backtrack(self : Solver, backtrack_level : Int) -> Unit {
+fn Solver::backtrack(self : Solver, backtrack_level : Int32) -> Unit {
   let current_level = self.trail_limits.length()
   if backtrack_level >= current_level {
     return
@@ -200,7 +200,7 @@ fn Solver::backtrack(self : Solver, backtrack_level : Int) -> Unit {
     self.reason[v] = -1
     self.saved[v] = if lit.is_negative() { -1 } else { 1 }
     // Put variable back into the decision heap if needed.
-    if not(self.vsids.in_heap(v)) {
+    if !self.vsids.in_heap(v) {
       self.vsids.insert(v)
     }
   }
@@ -316,7 +316,7 @@ fn Solver::reduce(self : Solver) -> Unit {
       locked[idx] = true
     }
   }
-  let candidates : Array[(Int, Int, Int, Int)] = []
+  let candidates : Array[(Int32, Int32, Int32, Int32)] = []
   for i in self.origin_clauses..<old_size {
     let clause = self.clauses[i]
     let len = clause.lits.length()
@@ -341,7 +341,7 @@ fn Solver::reduce(self : Solver) -> Unit {
       let worse = prev.1 < key.1 ||
         (prev.1 == key.1 && prev.2 > key.2) ||
         (prev.1 == key.1 && prev.2 == key.2 && prev.3 < key.3)
-      if not(worse) {
+      if !worse {
         break
       }
       candidates[j] = prev

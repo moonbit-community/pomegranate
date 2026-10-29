@@ -15,4 +15,3 @@ pub fn solve(@formula.CnfFormula) -> @formula.Model?
 // Type aliases
 
 // Traits
-

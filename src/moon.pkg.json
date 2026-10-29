@@ -1,8 +1,0 @@
-{
-    "import":[
-        "moonbit-community/pomegranate/solver",
-        "moonbit-community/pomegranate/formula",
-        "moonbit-community/pomegranate/dimacs",
-        "moonbitlang/x/fs"
-    ]
-}

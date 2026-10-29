@@ -3,15 +3,15 @@
 ///
 /// The heap stores variable ids; `pos` maps var -> heap index (or -1 if absent).
 priv struct VsidsHeap {
-  heap : Array[Int]
-  pos : Array[Int]
+  heap : Array[Int32]
+  pos : Array[Int32]
   activity : FixedArray[Double]
 }
 
 ///|
 /// Create an empty heap backed by an activity table.
 fn VsidsHeap::new(activity : FixedArray[Double]) -> VsidsHeap {
-  { heap: [], pos: Array::make(activity.length(), -1), activity }
+  { heap: [], pos: Array::make(activity.length(), -1), activity, }
 }
 
 ///|
@@ -22,13 +22,13 @@ fn VsidsHeap::empty(self : VsidsHeap) -> Bool {
 
 ///|
 /// Returns true if a variable is currently in the heap.
-fn VsidsHeap::in_heap(self : VsidsHeap, v : Int) -> Bool {
+fn VsidsHeap::in_heap(self : VsidsHeap, v : Int32) -> Bool {
   v < self.pos.length() && self.pos[v] >= 0
 }
 
 ///|
 /// Grow the `pos` array if needed before inserting a larger variable id.
-fn VsidsHeap::ensure_pos(self : VsidsHeap, v : Int) -> Unit {
+fn VsidsHeap::ensure_pos(self : VsidsHeap, v : Int32) -> Unit {
   if v >= self.pos.length() {
     self.pos.resize(v + 1, -1)
   }
@@ -36,18 +36,18 @@ fn VsidsHeap::ensure_pos(self : VsidsHeap, v : Int) -> Unit {
 
 ///|
 /// Compare activities for heap ordering.
-fn VsidsHeap::higher(self : VsidsHeap, a : Int, b : Int) -> Bool {
+fn VsidsHeap::higher(self : VsidsHeap, a : Int32, b : Int32) -> Bool {
   self.activity[a] > self.activity[b]
 }
 
 ///|
 /// Bubble up an element to restore heap order.
-fn VsidsHeap::up(self : VsidsHeap, idx : Int) -> Unit {
+fn VsidsHeap::up(self : VsidsHeap, idx : Int32) -> Unit {
   let x = self.heap[idx]
   let mut i = idx
   while i > 0 {
     let p = (i - 1) / 2
-    if not(self.higher(x, self.heap[p])) {
+    if !self.higher(x, self.heap[p]) {
       break
     }
     self.heap[i] = self.heap[p]
@@ -60,7 +60,7 @@ fn VsidsHeap::up(self : VsidsHeap, idx : Int) -> Unit {
 
 ///|
 /// Bubble down an element to restore heap order.
-fn VsidsHeap::down(self : VsidsHeap, idx : Int) -> Unit {
+fn VsidsHeap::down(self : VsidsHeap, idx : Int32) -> Unit {
   let x = self.heap[idx]
   let mut i = idx
   let mut left = i * 2 + 1
@@ -71,7 +71,7 @@ fn VsidsHeap::down(self : VsidsHeap, idx : Int) -> Unit {
       self.higher(self.heap[right], self.heap[left]) {
       child = right
     }
-    if not(self.higher(self.heap[child], x)) {
+    if !self.higher(self.heap[child], x) {
       break
     }
     self.heap[i] = self.heap[child]
@@ -85,7 +85,7 @@ fn VsidsHeap::down(self : VsidsHeap, idx : Int) -> Unit {
 
 ///|
 /// Insert a variable if it is not already in the heap.
-fn VsidsHeap::insert(self : VsidsHeap, v : Int) -> Unit {
+fn VsidsHeap::insert(self : VsidsHeap, v : Int32) -> Unit {
   self.ensure_pos(v)
   if self.pos[v] >= 0 {
     return
@@ -98,7 +98,7 @@ fn VsidsHeap::insert(self : VsidsHeap, v : Int) -> Unit {
 
 ///|
 /// Update an existing variable's position after its activity increased.
-fn VsidsHeap::update(self : VsidsHeap, v : Int) -> Unit {
+fn VsidsHeap::update(self : VsidsHeap, v : Int32) -> Unit {
   if self.pos[v] >= 0 {
     self.up(self.pos[v])
   }
@@ -106,7 +106,7 @@ fn VsidsHeap::update(self : VsidsHeap, v : Int) -> Unit {
 
 ///|
 /// Pop the highest-activity variable from the heap.
-fn VsidsHeap::pop(self : VsidsHeap) -> Int {
+fn VsidsHeap::pop(self : VsidsHeap) -> Int32 {
   let x = self.heap[0]
   let last = match self.heap.pop() {
     Some(v) => v
@@ -130,8 +130,8 @@ fn VsidsHeap::pop(self : VsidsHeap) -> Int {
 fn VsidsHeap::pop_noisy(
   self : VsidsHeap,
   rand : @random.Rand,
-  samples : Int,
-) -> Int {
+  samples : Int32,
+) -> Int32 {
   let len = self.heap.length()
   if len == 0 {
     panic()

@@ -3,7 +3,7 @@
 ///
 /// - `fast_lbd_sum`: fast EMA of recent LBD values.
 /// - `slow_lbd_sum`: slow EMA of capped LBD values.
-fn Solver::update_lbd_metrics(self : Solver, lbd : Int) -> Unit {
+fn Solver::update_lbd_metrics(self : Solver, lbd : Int32) -> Unit {
   if self.lbd_queue_size < LBD_QUEUE_LEN {
     self.lbd_queue_size = self.lbd_queue_size + 1
   }
@@ -23,7 +23,7 @@ fn Solver::update_lbd_metrics(self : Solver, lbd : Int) -> Unit {
 
 ///|
 /// Tighten the stored LBD of a learned clause if it is implied at lower levels.
-fn Solver::tighten_clause_lbd(self : Solver, cref : Int) -> Unit {
+fn Solver::tighten_clause_lbd(self : Solver, cref : Int32) -> Unit {
   if cref < self.origin_clauses {
     return
   }
@@ -56,7 +56,7 @@ fn Solver::tighten_clause_lbd(self : Solver, cref : Int) -> Unit {
 
 ///|
 /// Map a decision level to an abstract bit for redundancy pruning.
-fn abstract_level(level : Int) -> Int {
+fn abstract_level(level : Int32) -> Int32 {
   1 << (level & 31)
 }
 
@@ -74,9 +74,9 @@ fn abstract_level(level : Int) -> Int {
 fn Solver::lit_redundant(
   self : Solver,
   lit : Lit,
-  learned_stamp : Int,
-  learned_abstract : Int,
-  poison_stamp : Int,
+  learned_stamp : Int32,
+  learned_abstract : Int32,
+  poison_stamp : Int32,
 ) -> Bool {
   let stack : Array[Lit] = []
   let var_id = lit.index().to_int()
@@ -188,7 +188,7 @@ fn Solver::sort_learned_by_level(self : Solver, learned : Array[Lit]) -> Unit {
 
 ///|
 /// Conflict analysis with 1-UIP learning and LBD computation.
-fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
+fn Solver::analyze(self : Solver, conflict_idx : Int32) -> AnalyzeResult {
   let current_level = self.decision_level
   self.analyze_calls += 1
   if current_level == 0 {
@@ -198,7 +198,7 @@ fn Solver::analyze(self : Solver, conflict_idx : Int) -> AnalyzeResult {
   self.time_stamp = self.time_stamp + 1
   let learned : Array[Lit] = []
   learned.push(self.clauses[conflict_idx].lits[0])
-  let bump : Array[Int] = []
+  let bump : Array[Int32] = []
   let mut resolve_lit : Lit? = None
   let mut should_visit = 0
   let mut idx = self.trail.length() - 1

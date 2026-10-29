@@ -1,14 +1,14 @@
 ///|
-const ASSIGN_UNSET : Int = -1
+const ASSIGN_UNSET : Int32 = -1
 
 ///|
-const ASSIGN_FALSE : Int = 0
+const ASSIGN_FALSE : Int32 = 0
 
 ///|
-const ASSIGN_TRUE : Int = 1
+const ASSIGN_TRUE : Int32 = 1
 
 ///|
-fn lit_value(assignment : Array[Int], lit : Lit) -> Int {
+fn lit_value(assignment : Array[Int32], lit : Lit) -> Int32 {
   let idx = lit.index().to_int()
   let current = assignment[idx]
   if current == ASSIGN_UNSET {
@@ -16,7 +16,7 @@ fn lit_value(assignment : Array[Int], lit : Lit) -> Int {
   } else {
     let mut is_true = current == ASSIGN_TRUE
     if lit.is_negative() {
-      is_true = not(is_true)
+      is_true = !is_true
     }
     if is_true {
       ASSIGN_TRUE
@@ -27,7 +27,7 @@ fn lit_value(assignment : Array[Int], lit : Lit) -> Int {
 }
 
 ///|
-fn assign_literal(assignment : Array[Int], lit : Lit) -> Bool {
+fn assign_literal(assignment : Array[Int32], lit : Lit) -> Bool {
   let idx = lit.index().to_int()
   let want = if lit.is_negative() { ASSIGN_FALSE } else { ASSIGN_TRUE }
   let current = assignment[idx]
@@ -41,9 +41,9 @@ fn assign_literal(assignment : Array[Int], lit : Lit) -> Bool {
 
 ///|
 fn scan_clause(
-  assignment : Array[Int],
+  assignment : Array[Int32],
   clause : MutArrayView[Lit],
-) -> (Bool, Int, Lit?) {
+) -> (Bool, Int32, Lit?) {
   let mut satisfied = false
   let mut unassigned = 0
   let mut last_unassigned : Lit? = None
@@ -61,7 +61,10 @@ fn scan_clause(
 }
 
 ///|
-fn assign_pure_literals(formula : CnfFormula, assignment : Array[Int]) -> Bool {
+fn assign_pure_literals(
+  formula : CnfFormula,
+  assignment : Array[Int32],
+) -> Bool {
   let var_count = assignment.length()
   let pos = Array::make(var_count, false)
   let neg = Array::make(var_count, false)
@@ -92,10 +95,10 @@ fn assign_pure_literals(formula : CnfFormula, assignment : Array[Int]) -> Bool {
   let mut assigned_any = false
   for idx in 0..<var_count {
     if assignment[idx] == ASSIGN_UNSET {
-      if pos[idx] && not(neg[idx]) {
+      if pos[idx] && !neg[idx] {
         assignment[idx] = ASSIGN_TRUE
         assigned_any = true
-      } else if neg[idx] && not(pos[idx]) {
+      } else if neg[idx] && !pos[idx] {
         assignment[idx] = ASSIGN_FALSE
         assigned_any = true
       }
@@ -105,7 +108,7 @@ fn assign_pure_literals(formula : CnfFormula, assignment : Array[Int]) -> Bool {
 }
 
 ///|
-fn propagate(formula : CnfFormula, assignment : Array[Int]) -> Bool {
+fn propagate(formula : CnfFormula, assignment : Array[Int32]) -> Bool {
   let mut changed = true
   let clause_count = formula.clause_count()
   while changed {
@@ -124,7 +127,7 @@ fn propagate(formula : CnfFormula, assignment : Array[Int]) -> Bool {
       if unassigned == 1 {
         match last_unassigned {
           Some(lit) => {
-            if not(assign_literal(assignment, lit)) {
+            if !assign_literal(assignment, lit) {
               return true
             }
             changed = true
@@ -141,7 +144,7 @@ fn propagate(formula : CnfFormula, assignment : Array[Int]) -> Bool {
 }
 
 ///|
-fn formula_satisfied(formula : CnfFormula, assignment : Array[Int]) -> Bool {
+fn formula_satisfied(formula : CnfFormula, assignment : Array[Int32]) -> Bool {
   let clause_count = formula.clause_count()
   for i in 0..<clause_count {
     let clause = formula.clause(i)
@@ -152,7 +155,7 @@ fn formula_satisfied(formula : CnfFormula, assignment : Array[Int]) -> Bool {
         break
       }
     }
-    if not(satisfied) {
+    if !satisfied {
       return false
     }
   }
@@ -160,7 +163,7 @@ fn formula_satisfied(formula : CnfFormula, assignment : Array[Int]) -> Bool {
 }
 
 ///|
-fn pick_unassigned(assignment : Array[Int]) -> Int? {
+fn pick_unassigned(assignment : Array[Int32]) -> Int32? {
   let count = assignment.length()
   for i in 0..<count {
     if assignment[i] == ASSIGN_UNSET {
@@ -171,7 +174,7 @@ fn pick_unassigned(assignment : Array[Int]) -> Int? {
 }
 
 ///|
-fn build_model(assignment : Array[Int]) -> Model {
+fn build_model(assignment : Array[Int32]) -> Model {
   let model = Model::new(assignment.length())
   for i in 0..<assignment.length() {
     if assignment[i] == ASSIGN_TRUE {
@@ -182,7 +185,7 @@ fn build_model(assignment : Array[Int]) -> Model {
 }
 
 ///|
-fn dpll(formula : CnfFormula, assignment : Array[Int]) -> Array[Int]? {
+fn dpll(formula : CnfFormula, assignment : Array[Int32]) -> Array[Int32]? {
   if propagate(formula, assignment) {
     return None
   }

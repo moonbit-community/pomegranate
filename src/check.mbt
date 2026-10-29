@@ -1,5 +1,5 @@
 ///|
-pub fn check_sat(path : String, print_metrics? : Bool = false) -> Unit raise {
+pub fn check_sat(path : String, print_metrics~ : Bool = false) -> Unit raise {
   let source = @fs.read_file_to_bytes(path)
   let cnf = @dimacs.DimacsParser::parse(source)
   let solve_result = @solver.solve(cnf)
@@ -16,7 +16,7 @@ pub fn check_sat(path : String, print_metrics? : Bool = false) -> Unit raise {
 }
 
 ///|
-pub fn check_unsat(path : String, print_metrics? : Bool = false) -> Unit raise {
+pub fn check_unsat(path : String, print_metrics~ : Bool = false) -> Unit raise {
   let source = @fs.read_file_to_bytes(path)
   let cnf = @dimacs.DimacsParser::parse(source)
   let solve_result = @solver.solve(cnf)

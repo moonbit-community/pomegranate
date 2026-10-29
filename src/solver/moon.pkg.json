@@ -1,7 +1,0 @@
-{
-  "import": [
-    "moonbit-community/pomegranate/formula",
-    "moonbitlang/core/cmp",
-    "moonbitlang/core/random"
-  ]
-}

@@ -7,7 +7,7 @@
 pub fn solve(formula : CnfFormula) -> SolveResult {
   let solver = Solver::new(formula)
   if solver.has_conflict {
-    return SolveResult::{ model: None, metrics: solver.build_metrics() }
+    return SolveResult::{ model: None, metrics: solver.build_metrics(), }
   }
   // Initial propagation after unit clauses in the constructor.
   let initial_conflict = solver.propagate()
@@ -19,7 +19,7 @@ pub fn solve(formula : CnfFormula) -> SolveResult {
     } else {
       solver.conflicts_learned += 1
     }
-    return SolveResult::{ model: None, metrics: solver.build_metrics() }
+    return SolveResult::{ model: None, metrics: solver.build_metrics(), }
   }
   while true {
     let conflict = solver.propagate()
@@ -40,20 +40,18 @@ pub fn solve(formula : CnfFormula) -> SolveResult {
       }
       match solver.analyze(conflict) {
         AnalyzeResult::Unsat =>
-          return SolveResult::{ model: None, metrics: solver.build_metrics() }
+          return SolveResult::{ model: None, metrics: solver.build_metrics(), }
         AnalyzeResult::Learned(learned~, backtrack_level~, lbd~) => {
           solver.learned_clauses_total += 1
           solver.backtrack(backtrack_level)
           if learned.length() == 1 {
             // Unit learned clause: assert at level 0.
             let _ = solver.assign(learned[0], 0, -1)
-
           } else {
             let cref = solver.add_clause(learned.mut_view())
             solver.clauses[cref].lbd = lbd
             // Assert the UIP literal at the backtrack level.
             let _ = solver.assign(learned[0], backtrack_level, cref)
-
           }
           // Bump conflict counters and update heuristics.
           solver.var_inc = solver.var_inc / VAR_INC_DECAY
@@ -77,7 +75,7 @@ pub fn solve(formula : CnfFormula) -> SolveResult {
         solver.rephase()
       } else if restart_ready {
         solver.restart()
-      } else if not(solver.decide()) {
+      } else if !solver.decide() {
         // No decision variables left: model is complete.
         return SolveResult::{
           model: Some(solver.build_model()),
@@ -86,5 +84,5 @@ pub fn solve(formula : CnfFormula) -> SolveResult {
       }
     }
   }
-  SolveResult::{ model: None, metrics: solver.build_metrics() }
+  SolveResult::{ model: None, metrics: solver.build_metrics(), }
 }

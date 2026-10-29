@@ -11,16 +11,19 @@ import {
 
 // Errors
 pub suberror DIMACSParseError {
-  UnexpectedInputCharacter(line~ : Int, unexpected~ : Char)
-  LiteralTooLarge(line~ : Int, index~ : UInt64, final_digit~ : UInt64)
-  InvalidHeader(line~ : Int, header~ : StringView)
-  UnterminatedClause(line~ : Int)
+  UnexpectedInputCharacter(line~ : Int32, unexpected~ : Char)
+  LiteralTooLarge(line~ : Int32, index~ : UInt64, final_digit~ : UInt64)
+  InvalidHeader(line~ : Int32, header~ : StringView)
+  UnterminatedClause(line~ : Int32)
   VarCount(var_count~ : UInt64, header_var_count~ : UInt64)
   ClauseCount(clause_count~ : UInt64, header_clause_count~ : UInt64)
   FormulaError(@formula.FormulaError)
   DecodeError(@utf8.Malformed)
   PreviousError
 }
+pub fn DIMACSParseError::output(Self, &Logger) -> Unit
+pub fn DIMACSParseError::to_json(Self) -> Json
+pub fn DIMACSParseError::to_string(Self) -> String
 pub impl Show for DIMACSParseError
 pub impl ToJson for DIMACSParseError
 
@@ -35,7 +38,7 @@ pub struct DimacsParser {
   formula : @formula.CnfFormula
   partial_clause : Array[@formula.Lit]
   mut header : DimacsHeader?
-  mut line_number : Int
+  mut line_number : Int32
   mut clause_count : UInt64
   mut partial_lit : UInt64
   mut negate_next_lit : Bool
@@ -59,4 +62,3 @@ pub fn DimacsParser::var_count(Self) -> UInt64
 // Type aliases
 
 // Traits
-

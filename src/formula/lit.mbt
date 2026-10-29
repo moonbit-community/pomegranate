@@ -9,7 +9,7 @@
 /// might panic or be interpreted as a different variable.
 #valtype
 pub struct Var {
-  index : UInt
+  index : UInt32
 }
 
 ///|
@@ -30,15 +30,15 @@ pub fn Var::to_dimacs(self : Var) -> Int64 {
 ///
 /// The index may not represent a variable past `Var::max_var()`.
 pub fn Var::from_index(index : UInt64) -> Var raise FormulaError {
-  guard index < @uint.max_value.to_uint64() >> 4 else {
+  guard index < @uint.MAX_VALUE.to_uint64() >> 4 else {
     raise IndexTooLarge(index~)
   }
-  Var::{ index: index.to_uint() }
+  Var::{ index: index.to_uint(), }
 }
 
 ///|
 pub fn Var::max_count() -> UInt64 {
-  (@uint.max_value >> 4).to_uint64() + 1
+  (@uint.MAX_VALUE >> 4).to_uint64() + 1
 }
 
 ///|
@@ -55,18 +55,18 @@ pub fn Var::max_count() -> UInt64 {
 ///
 /// The restriction on the range of allowed indices for `Var` also applies to `Lit`.
 pub struct Lit {
-  code : UInt
+  code : UInt32
 }
 
 ///|
 pub fn Lit::from_litidx(
-  index : UInt,
+  index : UInt32,
   polarity : Bool,
 ) -> Lit raise FormulaError {
-  guard index <= (@uint.max_value >> 3) + 1 else {
+  guard index <= (@uint.MAX_VALUE >> 3) + 1 else {
     raise IndexTooLarge(index=index.to_uint64())
   }
-  Lit::{ code: (index << 1) | (if polarity { 0 } else { 1 }) }
+  Lit::{ code: (index << 1) | (if polarity { 0 } else { 1 }), }
 }
 
 ///|
@@ -90,7 +90,7 @@ pub fn Lit::index(self : Lit) -> UInt64 {
 
 ///|
 pub fn Lit::to_var(self : Lit) -> Var {
-  Var::{ index: self.code >> 1 }
+  Var::{ index: self.code >> 1, }
 }
 
 ///|
@@ -108,12 +108,12 @@ pub fn Lit::to_dimacs(self : Lit) -> Int64 {
 }
 
 ///|
-pub impl ToJson for Lit with to_json(self) {
-  self.to_dimacs().to_json()
+pub impl ToJson for Lit with fn to_json(self) {
+  Json(self.to_dimacs())
 }
 
 ///|
-pub impl Show for Lit with output(self, logger) {
+pub impl Show for Lit with fn output(self, logger) {
   logger.write_object(self.to_dimacs())
 }
 
