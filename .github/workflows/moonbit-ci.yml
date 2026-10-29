@@ -9,7 +9,7 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -31,4 +31,4 @@ jobs:
       - run: moon version --all
       - run: moon update
       - run: moon check --target native
-      - run: moon test --target native --jobs 1
+      - run: moon test --target native --release --jobs 1

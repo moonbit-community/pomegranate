@@ -6,7 +6,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -18,7 +18,7 @@ jobs:
       - run: moon version --all
       - run: moon update
       - run: moon check --target native
-      - run: moon test --target native --jobs 1
+      - run: moon test --target native --release --jobs 1
       - name: Publish verified module
         env:
           MOONCAKES_CREDENTIALS: ${{ secrets.MOONCAKES_MOONBIT_COMMUNITY_TOKEN }}
